@@ -29,13 +29,16 @@ class RegisterController extends GetxController {
         await FirebaseFirestore.instance
             .collection('users')
             .doc(userCredential.user!.uid)
-            .set({
-          "first_name": firstName.text.toString(),
-          "last_name": lastName.text.toString(),
-          "email": email.text.toString(),
-          "password": password.text.toString(),
-          "confirm_password": confirmPassword.text.toString(),
-        });
+            .set(
+          {
+            "unique_id": userCredential.user!.uid.toString(),
+            "first_name": firstName.text.toString(),
+            "last_name": lastName.text.toString(),
+            "email": email.text.toString(),
+            "password": password.text.toString(),
+            "confirm_password": confirmPassword.text.toString(),
+          },
+        );
 
         // Showing Snackbar of Successfully account is created
         Get.snackbar(

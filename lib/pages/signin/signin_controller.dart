@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,12 +15,12 @@ class SigninController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  void onInit() {
+  void onInit() async {
     final user = _auth.currentUser;
     if (user != null) {
-      Get.toNamed(AppRoutes.homeScreen);
+      await Get.toNamed(AppRoutes.homeScreen);
     } else {
-      Get.toNamed(AppRoutes.signinScreen);
+      await Get.toNamed(AppRoutes.signinScreen);
     }
     super.onInit();
   }

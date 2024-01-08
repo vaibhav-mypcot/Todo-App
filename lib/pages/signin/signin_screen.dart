@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/pages/signin/signin_controller.dart';
+import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
 import 'package:todo_app/utils/validation_mixin.dart';
@@ -157,6 +159,9 @@ class SigninScreen extends StatelessWidget with ValidationsMixin {
                       ),
                       TextSpan(
                         text: "Signup",
+                        recognizer: TapGestureRecognizer()
+                          ..onTap =
+                              () => Get.toNamed(AppRoutes.registrationScreen),
                         style: kTextStyleGabaritoRegular.copyWith(
                           fontSize: 14.sp,
                           color: kColorBlueAccent,
