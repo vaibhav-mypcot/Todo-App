@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_app/models/signup_model.dart';
+import 'package:todo_app/routes/app_page.dart';
 
 class RegisterController extends GetxController {
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
@@ -17,64 +17,43 @@ class RegisterController extends GetxController {
 
   // Initiazlizing Firebase
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _registrationDb = FirebaseFirestore.instance;
-
-  // registration(SignupModel signupModel) async {
-  //   await _registrationDb
-  //       .collection("SignupData")
-  //       .add(signupModel.toJson())
-  //       .whenComplete(
-  //         () => Get.snackbar(
-  //           "Success",
-  //           "Your account has bee created",
-  //           snackPosition: SnackPosition.BOTTOM,
-  //           colorText: Colors.green,
-  //         ),
-  //       )
-  //       .catchError((error, stackTarce) {
-  //     Get.snackbar(
-  //       "Error",
-  //       "Smoething went wrong",
-  //       snackPosition: SnackPosition.BOTTOM,
-  //       colorText: Colors.red,
-  //     );
-  //   });
-  // }
-
-  // create user
-
-  // Future<void> registerUser(SignupModel signupModel) async {
-  //   UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-  //     email: email.text,
-  //     password: confirmPassword.text,
-  //   );
-
-  //   await registration(signupModel);
-  // }
-
-  // void onSaveClicked() {
-  //   if (registerFormKey.currentState!.validate()) {
-  //     final userRegister = SignupModel(
-  //       firstName: firstName.text.trim(),
-  //       lastName: lastName.text.trim(),
-  //       email: email.text.trim(),
-  //       password: password.text.trim(),
-  //       confirmPassword: confirmPassword.text.trim(),
-  //     );
-  //     registerUser(userRegister);
-  //     // Get.toNamed(AppRoutes.addressScreen);
-  //     print('Registration Successful');
-  //   }
-  // }
 
   Future<void> onCreateAccount() async {
     if (registerFormKey.currentState!.validate()) {
       try {
         final userCredential = await _auth.createUserWithEmailAndPassword(
             email: email.text, password: confirmPassword.text);
+
+        // Create firestore collection to store data
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set({
+          "first_name": firstName.text.toString(),
+          "last_name": lastName.text.toString(),
+          "email": email.text.toString(),
+          "password": password.text.toString(),
+          "confirm_password": confirmPassword.text.toString(),
+        });
+
+        // Showing Snackbar of Successfully account is created
+        Get.snackbar(
+          "Congratulation",
+          "Account created successfully",
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.green,
+          backgroundColor: Colors.white,
+        );
+
+        Get.toNamed(AppRoutes.signinScreen);
       } on FirebaseAuthException catch (error) {
         if (error.code == 'email-already-in-use') {}
-        GetSnackBar(message: error.message ?? "Registration failed");
+        Get.snackbar(error.message ?? "Registration failed", "Please try again",
+            snackPosition: SnackPosition.BOTTOM,
+            colorText: Colors.red,
+            backgroundColor: Colors.white);
+        // GetSnackBar(message: error.message ?? "Registration failed");
       }
     }
   }

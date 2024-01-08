@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/pages/register/register_binding.dart';
+import 'package:todo_app/pages/signin/signin_binding.dart';
 
 import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/routes/app_routes.dart';
@@ -36,9 +37,9 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.registrationScreen,
+        initialRoute: AppRoutes.signinScreen,
         getPages: AppPages.getPages,
-        initialBinding: RegisterBinding(),
+        initialBinding: SigninBinding(),
         theme: ThemeData(
           primaryColor: kColorPrimary,
           brightness: Brightness.light,

@@ -17,17 +17,18 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kColorWhite,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Column(
           children: [
-            const CustomAppbar(),
             Expanded(
               child: SingleChildScrollView(
                 child: Form(
                   key: registerController.registerFormKey,
                   child: Column(
                     children: [
+                      const CustomAppbar(),
                       // Herader
                       Text(
                         'Register',
@@ -272,7 +273,7 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                           press: () => registerController.onCreateAccount(),
                         ),
                       ),
-                      SizedBox(height: 116.h),
+                      SizedBox(height: 40.h),
                     ],
                   ),
                 ),

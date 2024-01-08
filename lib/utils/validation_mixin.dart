@@ -61,6 +61,9 @@ mixin ValidationsMixin {
   }
 
   String? matchPasswords(String? confirmPassword) {
+    if (confirmPassword == null || confirmPassword.isEmpty) {
+      return 'Please enter a valid password';
+    }
     if (_storedPassword != confirmPassword) {
       return 'Passwords do not match';
     }
