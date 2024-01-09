@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/pages/home/home_controller.dart';
+import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
 
@@ -149,7 +150,7 @@ class _AppDrawerState extends State<AppDrawerWidget> {
             title: Text('Logout'),
             onTap: () {
               FirebaseAuth.instance.signOut();
-              // Get.toNamed(AppRoutes.signinScreen);
+              Get.toNamed(AppRoutes.signinScreen);
             },
           ),
         ],

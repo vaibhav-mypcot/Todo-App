@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/localization/localization_data.dart';
 import 'package:todo_app/pages/signin/signin_binding.dart';
-
 import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/routes/app_routes.dart';
 import 'package:todo_app/theme/colors.dart';

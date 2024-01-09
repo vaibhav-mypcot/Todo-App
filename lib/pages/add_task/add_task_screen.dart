@@ -44,7 +44,7 @@ class AddTaskScreen extends StatelessWidget with ValidationsMixin {
                             SizedBox(height: 6.h),
                             CustomTextField(
                               controller: taskController.task,
-                              hintText: 'Enter your email',
+                              hintText: 'Enter your task',
                               hintStyle: kTextStyleGabaritoRegular.copyWith(
                                 fontSize: 14.sp,
                                 color: kColorGreyNeutral400,
@@ -68,7 +68,7 @@ class AddTaskScreen extends StatelessWidget with ValidationsMixin {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomButton(
                     label: "Add Task",
-                    press: () => taskController.onLoginClicked(),
+                    press: () => taskController.onAddTaskClicked(),
                   ),
                 ),
               ],

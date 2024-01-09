@@ -17,9 +17,9 @@ class SigninController extends GetxController {
   void onInit() async {
     final user = _auth.currentUser;
     if (user != null) {
-      await Get.toNamed(AppRoutes.homeScreen);
+      Get.toNamed(AppRoutes.homeScreen);
     } else {
-      await Get.toNamed(AppRoutes.signinScreen);
+      Get.toNamed(AppRoutes.signinScreen);
     }
     super.onInit();
   }
