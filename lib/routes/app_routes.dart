@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:todo_app/pages/add_task/add_task_binding.dart';
+import 'package:todo_app/pages/add_task/add_task_screen.dart';
 import 'package:todo_app/pages/home/home_binding.dart';
 import 'package:todo_app/pages/home/home_screen.dart';
 import 'package:todo_app/pages/register/register_binding.dart';
@@ -24,6 +26,11 @@ class AppPages {
       name: AppRoutes.homeScreen,
       page: () => HomeScreen(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.addTaskScreen,
+      page: () => AddTaskScreen(),
+      binding: AddTaskBinding(),
     ),
   ];
 }

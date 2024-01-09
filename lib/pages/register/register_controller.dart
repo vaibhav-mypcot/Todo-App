@@ -18,6 +18,8 @@ class RegisterController extends GetxController {
   // Initiazlizing Firebase
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  static String? uniqueId;
+
   Future<void> onCreateAccount() async {
     if (registerFormKey.currentState!.validate()) {
       try {
@@ -39,6 +41,8 @@ class RegisterController extends GetxController {
             "confirm_password": confirmPassword.text.toString(),
           },
         );
+
+        uniqueId = userCredential.user!.uid.toString();
 
         // Showing Snackbar of Successfully account is created
         Get.snackbar(

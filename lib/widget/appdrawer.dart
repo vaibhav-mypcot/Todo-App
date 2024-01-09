@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/pages/home/home_controller.dart';
-import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
 
@@ -22,6 +21,13 @@ class _AppDrawerState extends State<AppDrawerWidget> {
 
   final controller = Get.find<HomeController>();
 
+  // Get Username and email from firestore
+  // Map<String, dynamic> userData = controller.getUserData(userId);
+
+  void getData(){
+    String firstChar,fullName,email;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -35,29 +41,39 @@ class _AppDrawerState extends State<AppDrawerWidget> {
               color: kColorPrimary,
               alignment: Alignment.topLeft,
               padding: EdgeInsets.fromLTRB(18.w, 26.h, 0.w, 0.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: kColorWhite,
-                    child: Text(
-                      "A",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 24.0, color: kColorPrimary),
-                    ), //Text
-                  ),
-                  SizedBox(height: 14),
-                  Text(
-                    'Abhishek Yadav',
-                    style: kTextStyleGabaritoMedium.copyWith(
-                        fontSize: 18.sp, color: kColorWhite),
-                  ),
-                  Text(
-                    'abhishel@gmail.com',
-                    style: kTextStyleGabaritoRegular.copyWith(
-                        fontSize: 14.sp, color: kColorGreyNeutral200),
-                  ) //circleAvata
-                ],
+              child: Obx(
+                () {
+                  String firstLetter = controller.userData["first_name"];
+                  String name = controller.userData["last_name"];
+                  String email = controller.userData["email"];
+                  String fullName = "$firstLetter $name";
+                  var firstChar = firstLetter[0].toUpperCase.toString;
+                  return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                     CircleAvatar(
+                      backgroundColor: kColorWhite,
+                      child: Text(
+                       
+                        firstChar.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 24.0, color: kColorPrimary),
+                      ), //Text
+                    ),
+                    SizedBox(height: 14),
+                    Text(
+                      fullName.toString(),
+                      style: kTextStyleGabaritoMedium.copyWith(
+                          fontSize: 18.sp, color: kColorWhite),
+                    ),
+                    Text(
+                      email.toString(),
+                      style: kTextStyleGabaritoRegular.copyWith(
+                          fontSize: 14.sp, color: kColorGreyNeutral200),
+                    ) //circleAvata
+                  ],
+                );
+                }
               ),
             ),
           ),
