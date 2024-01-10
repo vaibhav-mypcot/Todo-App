@@ -20,9 +20,10 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: kColorWhite,
       bottomNavigationBar: BottomAppbarWidget(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(  
-        onPressed:  () {homeController.gotoAddNewTaskScreen();
-        print("length of list: ${homeController.userTaskData.length}");
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          homeController.gotoAddNewTaskScreen();
+          print("length of list: ${homeController.userTaskData.length}");
         },
         backgroundColor: kColorPrimary,
         shape: CircleBorder(),
@@ -45,41 +46,34 @@ class HomeScreen extends StatelessWidget {
       ),
       drawer: AppDrawerWidget(),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 75.h),
-            // Show this screen when there is no task
-            
-            homeController.userTaskData.isEmpty ? const EmptyScreen() :
+        child: Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 75.h),
+              // Show this screen when there is no task
 
-            StreamBuilder(stream: FirebaseFirestore.instance.collection('task_list').snapshots(), builder:  (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            }
+              homeController.userTaskList.isEmpty
+                  ? const EmptyScreen()
+                  : ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: homeController.userTaskList.length,
+                      itemBuilder: (context, index) {
+                        // Access individual document fields using documents[index].data()
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            }
-
-             List<DocumentSnapshot> documents = snapshot.data!.docs;
-
-            return ListView.builder(
-              itemCount: documents.length,
-              itemBuilder: (context, index) {
-                // Access individual document fields using documents[index].data()
-                Map<String, dynamic> data = documents[index].data() as Map<String, dynamic>;
-
-                // Display data in ListTile or any other widget
-                return ListTile(
-                  title: Text(data['task'].toString()),
-
-                );
-              },
-            );
-            },),
-          ],
+                        // Display data in ListTile or any other widget
+                        print(
+                            "${homeController.userTaskList[index].toString()}");
+                        return ListTile(
+                          title: Text(
+                              homeController.userTaskList[index].toString()),
+                        );
+                      },
+                    )
+            ],
+          ),
         ),
       ),
     );

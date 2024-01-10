@@ -10,12 +10,12 @@ class HomeController extends GetxController {
 
   final RxMap userData = {}.obs;
   final RxMap userTaskData = {}.obs;
+  List userTaskList = [].obs;
 
   RxBool hasInternet = true.obs;
 
   RxDouble width = 200.0.obs;
   RxDouble height = 50.0.obs;
-
 
   void toggleSize() {
     // Change the width and height
@@ -61,7 +61,6 @@ class HomeController extends GetxController {
       if (userSnapshot.exists) {
         // User data exists, return it as a Map
         userData.value = userSnapshot.data() as Map<String, dynamic>;
-
       } else {
         // User data doesn't exist
         print("User data not found in Firestore");
@@ -71,9 +70,9 @@ class HomeController extends GetxController {
       print("Error retrieving user data from Firestore: $e");
       userData.value = {};
     }
-  }  
+  }
 
-    // retrive userdata from firestore
+  // retrive user TaskList from firestore
   Future<void> getUserTaskData() async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
@@ -86,8 +85,9 @@ class HomeController extends GetxController {
       if (userSnapshot.exists) {
         // User data exists, return it as a Map
         userTaskData.value = userSnapshot.data() as Map<String, dynamic>;
+        userTaskList.addAll(userTaskData["task"]);
+        print("task list: ${userTaskList}");
         print("task data: ${userTaskData["task"]}");
-
       } else {
         // User data doesn't exist
         print("User data not found in Firestore");
@@ -97,12 +97,12 @@ class HomeController extends GetxController {
       print("Error retrieving user data from Firestore: $e");
       userTaskData.value = {};
     }
-  } 
+  }
 
   // Bottom Sheet
 
   // Navigate to NewTask Screen
-  void gotoAddNewTaskScreen(){
+  void gotoAddNewTaskScreen() {
     Get.toNamed(AppRoutes.addTaskScreen);
   }
 }
