@@ -151,6 +151,7 @@ class _AppDrawerState extends State<AppDrawerWidget> {
             onTap: () {
               FirebaseAuth.instance.signOut();
               Get.toNamed(AppRoutes.signinScreen);
+              
             },
           ),
         ],

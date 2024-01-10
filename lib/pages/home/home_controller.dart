@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/routes/app_page.dart';
 
@@ -11,6 +12,8 @@ class HomeController extends GetxController {
   final RxMap userData = {}.obs;
   final RxMap userTaskData = {}.obs;
   List userTaskList = [].obs;
+
+  RxBool taskCompleted = false.obs;
 
   RxBool hasInternet = true.obs;
 
@@ -27,7 +30,8 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     getUserData();
-    getUserTaskData();
+    // getUserTaskData();
+    fetchData();
 
     // Retrieve the selected language from GetStorage when the controller is initialized
     // selectedLanguage.value = box.read('language') ?? 'English';
@@ -47,6 +51,11 @@ class HomeController extends GetxController {
       Get.changeTheme(ThemeData.light());
     }
   }
+
+  // Future<QuerySnapshot> usersTasks = FirebaseFirestore.instance
+  //         .collection('task_list')
+  //         .doc(FirebaseAuth.instance.currentUser!.uid)
+  //         .collection('notes').get();
 
   // retrive userdata from firestore
   Future<void> getUserData() async {
@@ -72,37 +81,56 @@ class HomeController extends GetxController {
     }
   }
 
-  // retrive user TaskList from firestore
-  Future<void> getUserTaskData() async {
+  //////////////////////
+  ///
+  final RxList<DocumentSnapshot> notes = <DocumentSnapshot>[].obs;
+  Future<void> fetchData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    String userId = user!.uid;
     try {
-      User? user = FirebaseAuth.instance.currentUser;
-      String userId = user!.uid;
-      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+      final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('task_list')
           .doc(userId)
+          .collection('notes')
           .get();
 
-      if (userSnapshot.exists) {
-        // User data exists, return it as a Map
-        userTaskData.value = userSnapshot.data() as Map<String, dynamic>;
-        userTaskList.addAll(userTaskData["task"]);
-        print("task list: ${userTaskList}");
-        print("task data: ${userTaskData["task"]}");
-      } else {
-        // User data doesn't exist
-        print("User data not found in Firestore");
-        userTaskData.value = {};
-      }
+      notes.assignAll(querySnapshot.docs);
+      print("new data printed: ${notes}");
     } catch (e) {
-      print("Error retrieving user data from Firestore: $e");
-      userTaskData.value = {};
+      print('Error fetching data: $e');
     }
   }
 
-  // Bottom Sheet
-
-  // Navigate to NewTask Screen
   void gotoAddNewTaskScreen() {
     Get.toNamed(AppRoutes.addTaskScreen);
+  }
+
+  void checkBoxChanged(bool? value, index) async {
+    Map<String, dynamic> data = notes[index].data() as Map<String, dynamic>;
+
+    // Now you can access individual fields
+    String title = data['task'];
+    bool taskCompleted = data['isCompleted'];
+
+    taskCompleted = !taskCompleted;
+    SystemSound.play(SystemSoundType.click);
+    print("here is your boolean value: ${taskCompleted}${value}");
+    // taskCompleted.value = !taskCompleted.value;
+
+    // try to update value in fire store
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      String userId = user!.uid;
+
+      await FirebaseFirestore.instance
+          .collection('task_list')
+          .doc(userId) // Replace with the actual user ID
+          .collection('notes')
+          .doc(notes[index]
+              .id) // Assuming you have an 'id' property in your documents
+          .update({'isCompleted': value});
+    } catch (e) {
+      print('Error updating Firestore: $e');
+    }
   }
 }

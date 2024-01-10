@@ -11,11 +11,13 @@ class SigninController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+
 
   @override
   void onInit() async {
-    final user = _auth.currentUser;
+    final user = auth.currentUser;
     if (user != null) {
       Get.toNamed(AppRoutes.homeScreen);
     } else {
@@ -27,7 +29,7 @@ class SigninController extends GetxController {
   Future<void> onLoginClicked() async {
     if (signinFormKey.currentState!.validate()) {
       try {
-        final userCredential = await _auth.signInWithEmailAndPassword(
+        final userCredential = await auth.signInWithEmailAndPassword(
           email: email.text.toString(),
           password: password.text.toString(),
         );
