@@ -5,11 +5,12 @@ import 'package:todo_app/pages/add_task/add_task_controller.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
 import 'package:todo_app/utils/validation_mixin.dart';
+import 'package:todo_app/widget/common/custom_appbar.dart';
 import 'package:todo_app/widget/common/custom_button.dart';
 import 'package:todo_app/widget/common/custom_textfield.dart';
 
 class AddTaskScreen extends StatelessWidget with ValidationsMixin {
-   AddTaskScreen({super.key});
+  AddTaskScreen({super.key});
 
   final taskController = Get.find<AddTaskController>();
 
@@ -23,10 +24,11 @@ class AddTaskScreen extends StatelessWidget with ValidationsMixin {
             key: taskController.taskFormKey,
             child: Column(
               children: [
-                SizedBox(height: 66.h),
+                const CustomAppbar(),
+
                 // Task form
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  padding: EdgeInsets.symmetric(horizontal: 26.w),
                   child: Row(
                     children: [
                       // First Name

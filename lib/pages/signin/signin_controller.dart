@@ -13,14 +13,14 @@ class SigninController extends GetxController {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-
-
   @override
   void onInit() async {
     final user = auth.currentUser;
     if (user != null) {
+      await Future.delayed(Duration(seconds: 1));
       Get.toNamed(AppRoutes.homeScreen);
     } else {
+      await Future.delayed(Duration(seconds: 1));
       Get.toNamed(AppRoutes.signinScreen);
     }
     super.onInit();

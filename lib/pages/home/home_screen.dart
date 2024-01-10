@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,22 @@ class HomeScreen extends StatelessWidget {
   final homeController = Get.find<HomeController>();
 
   final signinController = Get.find<SigninController>();
+
+  final player = AudioPlayer();
+
+  Future<void> playAudio() async {
+    String audioPath = "assets/audio/bubble_click.wav";
+    String url =
+        "https://codeskulptor-demos.commondatastorage.googleapis.com/pang/pop.mp3";
+
+    await player.play(
+      UrlSource(url),
+    );
+
+    // await player.play(
+    //   AssetSource(audioPath),
+    // );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +85,7 @@ class HomeScreen extends StatelessWidget {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (!snapshot.hasData ) {
+                } else if (!snapshot.hasData) {
                   print("data not found");
                   return Center(
                     child: SvgPicture.asset(
@@ -86,12 +103,17 @@ class HomeScreen extends StatelessWidget {
                           Map data = snapshot.data?.docs[index].data() as Map;
                           String task = data['task'];
                           bool isCompleted = data['isCompleted'];
-                          return TaskTile(
-                            taskName: task.toString(),
-                            taskCompleted: isCompleted,
-                            onChanged: (value) =>
-                                homeController.checkBoxChanged(value, index),
-                                
+                          return Column(
+                            children: [
+                              TaskTile(
+                                  taskName: task.toString(),
+                                  taskCompleted: isCompleted,
+                                  onChanged: (value) {
+                                    homeController.checkBoxChanged(
+                                        value, index);
+                                    playAudio();
+                                  }),
+                            ],
                           );
                         },
                       ),

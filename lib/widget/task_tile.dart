@@ -17,12 +17,6 @@ class TaskTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {
-        final player = AudioPlayer();
-        player.play(
-          AssetSource("assest/audio/bubble_click.wav"),
-        );
-      },
       leading: Checkbox(
         value: taskCompleted,
         onChanged: onChanged,
