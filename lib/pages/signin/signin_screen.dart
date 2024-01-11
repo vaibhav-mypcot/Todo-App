@@ -10,6 +10,7 @@ import 'package:todo_app/utils/validation_mixin.dart';
 import 'package:todo_app/widget/common/custom_button.dart';
 import 'package:todo_app/widget/common/custom_textfield.dart';
 
+
 class SigninScreen extends StatelessWidget with ValidationsMixin {
   SigninScreen({super.key});
 
@@ -53,6 +54,7 @@ class SigninScreen extends StatelessWidget with ValidationsMixin {
                             ),
                             SizedBox(height: 6.h),
                             CustomTextField(
+                              
                               controller: signinController.email,
                               hintText: 'Enter your email',
                               hintStyle: kTextStyleGabaritoRegular.copyWith(
@@ -142,7 +144,12 @@ class SigninScreen extends StatelessWidget with ValidationsMixin {
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomButton(
                     label: "Login",
-                    press: () => signinController.onLoginClicked(),
+                    press: () async {
+               
+                      await signinController.onLoginClicked();
+                  
+                      // signinController.gotoHomeScreen();
+                    },
                   ),
                 ),
                 SizedBox(height: 150.h),

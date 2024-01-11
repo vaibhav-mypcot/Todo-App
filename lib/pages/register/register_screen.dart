@@ -8,6 +8,7 @@ import 'package:todo_app/utils/validation_mixin.dart';
 import 'package:todo_app/widget/common/custom_appbar.dart';
 import 'package:todo_app/widget/common/custom_button.dart';
 import 'package:todo_app/widget/common/custom_textfield.dart';
+import 'package:todo_app/widget/loader.dart';
 
 class RegisterScreen extends StatelessWidget with ValidationsMixin {
   RegisterScreen({super.key});
@@ -28,7 +29,9 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                   key: registerController.registerFormKey,
                   child: Column(
                     children: [
-                      const CustomAppbar(),
+                      CustomAppbar(
+                        press: () => Get.back(),
+                      ),
                       // Herader
                       Text(
                         'Register',
@@ -210,7 +213,8 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                       // Password
                       SizedBox(height: 12.h),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        padding: EdgeInsets.only(
+                            left: 16.w, right: 16.w, bottom: 80.h),
                         child: Row(
                           children: [
                             Expanded(
@@ -230,8 +234,8 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                                       controller:
                                           registerController.confirmPassword,
                                       maxLines: 1,
-                                      isPassword:
-                                          registerController.hidePassword.value,
+                                      isPassword: registerController
+                                          .hideConfirmPassword.value,
                                       hintText: '*********',
                                       hintStyle:
                                           kTextStyleGabaritoRegular.copyWith(
@@ -240,11 +244,12 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                                       ),
                                       suffixIcon: IconButton(
                                         onPressed: () => registerController
-                                                .hidePassword.value =
+                                                .hideConfirmPassword.value =
                                             !registerController
-                                                .hidePassword.value,
+                                                .hideConfirmPassword.value,
                                         icon: Icon(
-                                          registerController.hidePassword.value
+                                          registerController
+                                                  .hideConfirmPassword.value
                                               ? Icons.visibility_outlined
                                               : Icons.visibility_off_outlined,
                                         ),
@@ -263,22 +268,26 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                           ],
                         ),
                       ),
-
-                      // Submit Button
-                      SizedBox(height: 127.h),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: CustomButton(
-                          label: "Create Account",
-                          press: () => registerController.onCreateAccount(),
-                        ),
-                      ),
-                      SizedBox(height: 40.h),
                     ],
                   ),
                 ),
               ),
             ),
+            // Submit Button
+            Container(
+              margin: EdgeInsets.only(top: 80.h),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: CustomButton(
+                    label: "Create Account",
+                    press: () async {
+                      Utils.showLoader();
+                      await registerController.onCreateAccount();
+                      Get.back();
+                    }),
+              ),
+            ),
+            SizedBox(height: 40.h),
           ],
         ),
       ),

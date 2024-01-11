@@ -24,7 +24,7 @@ class AddTaskScreen extends StatelessWidget with ValidationsMixin {
             key: taskController.taskFormKey,
             child: Column(
               children: [
-                const CustomAppbar(),
+                 CustomAppbar(press: () => Get.back(),),
 
                 // Task form
                 Padding(

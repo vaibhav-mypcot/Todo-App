@@ -80,6 +80,7 @@ class CustomTextField extends StatelessWidget {
         maxLines: maxLines,
         textAlignVertical: textAlignVertical,
         autocorrect: false,
+        autofocus: false,
         enableSuggestions: false,
         decoration: InputDecoration(
           labelText: labelText,

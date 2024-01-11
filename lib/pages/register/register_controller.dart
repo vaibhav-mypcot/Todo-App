@@ -3,11 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/routes/app_page.dart';
+import 'package:todo_app/widget/common/circular_progress_indicatore.dart';
 
 class RegisterController extends GetxController {
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
   final hidePassword = true.obs;
+  final hideConfirmPassword = true.obs;
 
   final firstName = TextEditingController();
   final lastName = TextEditingController();
@@ -23,6 +25,7 @@ class RegisterController extends GetxController {
   Future<void> onCreateAccount() async {
     if (registerFormKey.currentState!.validate()) {
       try {
+        CircularProgressIndicatorWidget();
         final userCredential = await _auth.createUserWithEmailAndPassword(
             email: email.text, password: confirmPassword.text);
 
@@ -53,7 +56,10 @@ class RegisterController extends GetxController {
           backgroundColor: Colors.white,
         );
 
-        Get.toNamed(AppRoutes.signinScreen);
+        Get.back();
+
+        // Get.toNamed(AppRoutes.homeScreen);
+        Get.offAll(AppRoutes.homeScreen);
       } on FirebaseAuthException catch (error) {
         if (error.code == 'email-already-in-use') {}
         Get.snackbar(error.message ?? "Registration failed", "Please try again",

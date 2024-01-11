@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
 import 'package:todo_app/routes/app_page.dart';
 
@@ -12,8 +12,6 @@ class HomeController extends GetxController {
   final RxMap userData = {}.obs;
   final RxMap userTaskData = {}.obs;
   List userTaskList = [].obs;
-
-  RxBool taskCompleted = false.obs;
 
   RxBool hasInternet = true.obs;
 
@@ -106,16 +104,22 @@ class HomeController extends GetxController {
   }
 
   void checkBoxChanged(bool? value, index) async {
-    Map<String, dynamic> data = notes[index].data() as Map<String, dynamic>;
+    CollectionReference querySnapshot = FirebaseFirestore.instance
+        .collection('task_list')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('notes');
+    // Map data = snapshot.data?.docs[index].data() as Map;
+    // Map data = querySnapshot.data?.doc[index].data.get as Map;
+
+    QuerySnapshot getData = await querySnapshot.get();
+    Map data = getData.docs[index].data() as Map;
+
+    String docID = getData.docs[index].reference.id;
 
     // Now you can access individual fields
-    String title = data['task'];
     bool taskCompleted = data['isCompleted'];
 
     taskCompleted = !taskCompleted;
-    SystemSound.play(SystemSoundType.click);
-    print("here is your boolean value: ${taskCompleted}${value}");
-    // taskCompleted.value = !taskCompleted.value;
 
     // try to update value in fire store
     try {
@@ -126,8 +130,7 @@ class HomeController extends GetxController {
           .collection('task_list')
           .doc(userId) // Replace with the actual user ID
           .collection('notes')
-          .doc(notes[index]
-              .id) // Assuming you have an 'id' property in your documents
+          .doc(docID)
           .update({'isCompleted': value});
     } catch (e) {
       print('Error updating Firestore: $e');

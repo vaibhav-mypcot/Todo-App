@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/pages/home/home_controller.dart';
+import 'package:todo_app/pages/signin/signin_controller.dart';
 import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
+import 'package:todo_app/widget/loader.dart';
 
 class AppDrawerWidget extends StatefulWidget {
   AppDrawerWidget({super.key});
@@ -21,13 +23,7 @@ class _AppDrawerState extends State<AppDrawerWidget> {
   var isDark = false;
 
   final controller = Get.find<HomeController>();
-
-  // Get Username and email from firestore
-  // Map<String, dynamic> userData = controller.getUserData(userId);
-
-  void getData(){
-    String firstChar,fullName,email;
-  }
+  final signinController = Get.find<SigninController>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,20 +38,18 @@ class _AppDrawerState extends State<AppDrawerWidget> {
               color: kColorPrimary,
               alignment: Alignment.topLeft,
               padding: EdgeInsets.fromLTRB(18.w, 26.h, 0.w, 0.h),
-              child: Obx(
-                () {
-                  String firstLetter = controller.userData["first_name"];
-                  String name = controller.userData["last_name"];
-                  String email = controller.userData["email"];
-                  String fullName = "$firstLetter $name";
-                  var firstChar = firstLetter[0].toUpperCase.toString;
-                  return Column(
+              child: Obx(() {
+                String firstLetter = controller.userData["first_name"];
+                String name = controller.userData["last_name"];
+                String email = controller.userData["email"];
+                String fullName = "$firstLetter $name";
+                var firstChar = firstLetter[0].toUpperCase.toString;
+                return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     CircleAvatar(
+                    CircleAvatar(
                       backgroundColor: kColorWhite,
                       child: Text(
-                       
                         firstChar.toString(),
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 24.0, color: kColorPrimary),
@@ -74,8 +68,7 @@ class _AppDrawerState extends State<AppDrawerWidget> {
                     ) //circleAvata
                   ],
                 );
-                }
-              ),
+              }),
             ),
           ),
           // SizedBox(
@@ -148,10 +141,13 @@ class _AppDrawerState extends State<AppDrawerWidget> {
           ListTile(
             leading: Icon(Icons.logout_outlined),
             title: Text('Logout'),
-            onTap: () {
-              FirebaseAuth.instance.signOut();
-              Get.toNamed(AppRoutes.signinScreen);
-              
+            onTap: () async {
+              Utils.showLoader();
+              await FirebaseAuth.instance.signOut();
+              signinController.email.clear();
+              signinController.password.clear();
+              Get.back();
+              Get.until((route) => Get.currentRoute == AppRoutes.signinScreen);
             },
           ),
         ],

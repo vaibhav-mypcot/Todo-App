@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:svg_flutter/svg.dart';
 import 'package:todo_app/const/const.dart';
 import 'package:todo_app/theme/colors.dart';
@@ -9,9 +10,11 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppbar({
     super.key,
     this.headingText,
+    required this.press,
   });
 
   final String? headingText;
+  final VoidCallback press;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +25,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
           Padding(
             padding: EdgeInsets.only(left: 18.w),
             child: InkWell(
-              onTap: () {
-                Get.back();
-              },
+              onTap: press,
               child: Container(
                 width: 44.h,
                 height: 44.h,

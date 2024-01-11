@@ -82,18 +82,10 @@ class HomeScreen extends StatelessWidget {
               stream: querySnapshot.snapshots(),
               builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (!snapshot.hasData) {
-                  print("data not found");
-                  return Center(
-                    child: SvgPicture.asset(
-                      Const().emptyImg,
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                } else {
+                } else if (snapshot.data!.docs.isNotEmpty) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Column(
@@ -103,19 +95,64 @@ class HomeScreen extends StatelessWidget {
                           Map data = snapshot.data?.docs[index].data() as Map;
                           String task = data['task'];
                           bool isCompleted = data['isCompleted'];
-                          return Column(
-                            children: [
-                              TaskTile(
-                                  taskName: task.toString(),
-                                  taskCompleted: isCompleted,
-                                  onChanged: (value) {
-                                    homeController.checkBoxChanged(
-                                        value, index);
-                                    playAudio();
-                                  }),
-                            ],
+    
+                          QueryDocumentSnapshot documentSnapshot =
+                              snapshot.data!.docs[index];
+                          String docID = documentSnapshot.reference.id;
+    
+                          return Dismissible(
+                            key: Key(docID),
+                            background: const Card(
+                              color: Colors.red,
+                              child: Center(
+                                child: Text(
+                                  "Deleted",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                            ),
+                            onDismissed: (direction) {
+                              FirebaseFirestore.instance
+                                  .collection('task_list')
+                                  .doc(signinController.auth.currentUser!.uid)
+                                  .collection('notes')
+                                  .doc(docID)
+                                  .delete();
+                            },
+                            child: TaskTile(
+                                taskName: task.toString(),
+                                taskCompleted: isCompleted,
+                                onChanged: (value) {
+                                  homeController.checkBoxChanged(value, index);
+                                  playAudio();
+                                }),
                           );
                         },
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container(
+                    margin: EdgeInsets.only(top: 90.h),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          SvgPicture.asset(
+                            Const().emptyImg,
+                            fit: BoxFit.cover,
+                          ),
+                          Text(
+                            "What do you want to do today?",
+                            style: kTextStyleGabaritoMedium.copyWith(
+                                fontSize: 18, color: kColorGreyNeutral600),
+                          ),
+                          Text(
+                            "Tap + to add your task",
+                            style: kTextStyleGabaritoMedium.copyWith(
+                                fontSize: 16, color: kColorGreyNeutral400),
+                          )
+                        ],
                       ),
                     ),
                   );

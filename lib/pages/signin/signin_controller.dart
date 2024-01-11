@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/routes/app_page.dart';
+import 'package:todo_app/widget/loader.dart';
 
 class SigninController extends GetxController {
   GlobalKey<FormState> signinFormKey = GlobalKey<FormState>();
@@ -29,12 +30,16 @@ class SigninController extends GetxController {
   Future<void> onLoginClicked() async {
     if (signinFormKey.currentState!.validate()) {
       try {
+        Utils.showLoader();
         final userCredential = await auth.signInWithEmailAndPassword(
           email: email.text.toString(),
           password: password.text.toString(),
         );
-        Get.toNamed(AppRoutes.homeScreen);
+        Get.back();
+        // Get.toNamed(AppRoutes.homeScreen);
+        Get.offAll(AppRoutes.homeScreen);
       } on FirebaseAuthException catch (error) {
+        Get.back();
         if (error.code == 'email-already-in-use') {}
         Get.snackbar(
           error.message ?? "Registration failed",
@@ -46,4 +51,6 @@ class SigninController extends GetxController {
       }
     }
   }
+
+  void gotoHomeScreen() {}
 }

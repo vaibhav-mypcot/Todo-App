@@ -11,6 +11,8 @@ class AddTaskController extends GetxController {
 
   final task = TextEditingController();
 
+  
+
   Future<void> onAddTaskClicked() async {
     if (taskFormKey.currentState!.validate()) {
       try {
@@ -34,11 +36,13 @@ class AddTaskController extends GetxController {
 
         Get.snackbar(
           "Congratulation",
-          "Account task added successfully",
+          "Task task added successfully",
           snackPosition: SnackPosition.BOTTOM,
           colorText: Colors.green,
           backgroundColor: Colors.white,
         );
+
+        taskFormKey.currentState!.reset();
 
         Get.toNamed(AppRoutes.homeScreen);
       } on FirebaseAuthException catch (error) {

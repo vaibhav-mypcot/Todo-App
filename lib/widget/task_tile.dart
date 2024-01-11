@@ -31,10 +31,5 @@ class TaskTile extends StatelessWidget {
         ),
       ),
     );
-    // return CheckboxListTile(
-    //   title: Text(taskName),
-    //   value: taskCompleted, onChanged: onChanged,
-
-    // );
   }
 }
