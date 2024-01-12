@@ -36,8 +36,8 @@ class SigninController extends GetxController {
           password: password.text.toString(),
         );
         Get.back();
-        // Get.toNamed(AppRoutes.homeScreen);
-        Get.offAll(AppRoutes.homeScreen);
+        Get.toNamed(AppRoutes.homeScreen);
+        Get.offAllNamed(AppRoutes.homeScreen);
       } on FirebaseAuthException catch (error) {
         Get.back();
         if (error.code == 'email-already-in-use') {}

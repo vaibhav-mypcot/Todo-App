@@ -71,9 +71,15 @@ mixin ValidationsMixin {
   }
 
   String? validateTask(String? value) {
-
     if (value == null || value.isEmpty || value.length < 3) {
       return 'Please enter a task more than 4 characters';
+    }
+    return null;
+  }
+
+  String? validateOTPCode(String? value){
+    if(value == null || value.isEmpty || value.length < 3){
+      return 'Please enter a valid code';
     }
     return null;
   }

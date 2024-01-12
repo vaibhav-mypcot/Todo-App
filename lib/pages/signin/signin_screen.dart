@@ -10,7 +10,6 @@ import 'package:todo_app/utils/validation_mixin.dart';
 import 'package:todo_app/widget/common/custom_button.dart';
 import 'package:todo_app/widget/common/custom_textfield.dart';
 
-
 class SigninScreen extends StatelessWidget with ValidationsMixin {
   SigninScreen({super.key});
 
@@ -54,7 +53,6 @@ class SigninScreen extends StatelessWidget with ValidationsMixin {
                             ),
                             SizedBox(height: 6.h),
                             CustomTextField(
-                              
                               controller: signinController.email,
                               hintText: 'Enter your email',
                               hintStyle: kTextStyleGabaritoRegular.copyWith(
@@ -126,16 +124,19 @@ class SigninScreen extends StatelessWidget with ValidationsMixin {
                     ],
                   ),
                 ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: 20.w, top: 12.h),
-                  child: Text(
-                    'Forgot Password?',
-                    style: kTextStyleGabaritoRegular.copyWith(
-                      fontSize: 14.sp,
-                      color: kColorBlueAccent,
-                      decoration: TextDecoration.underline,
-                      decorationColor: kColorBlueAccent,
+                GestureDetector(
+                  onTap: () => Get.toNamed(AppRoutes.forgotPasswordScreen),
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.only(right: 20.w, top: 12.h),
+                    child: Text(
+                      'Forgot Password?',
+                      style: kTextStyleGabaritoRegular.copyWith(
+                        fontSize: 14.sp,
+                        color: kColorBlueAccent,
+                        decoration: TextDecoration.underline,
+                        decorationColor: kColorBlueAccent,
+                      ),
                     ),
                   ),
                 ),
@@ -145,9 +146,8 @@ class SigninScreen extends StatelessWidget with ValidationsMixin {
                   child: CustomButton(
                     label: "Login",
                     press: () async {
-               
                       await signinController.onLoginClicked();
-                  
+
                       // signinController.gotoHomeScreen();
                     },
                   ),

@@ -120,7 +120,6 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: Row(
                           children: [
-                            // First Name
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,8 +281,8 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                     label: "Create Account",
                     press: () async {
                       Utils.showLoader();
+
                       await registerController.onCreateAccount();
-                      Get.back();
                     }),
               ),
             ),
