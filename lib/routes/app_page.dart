@@ -6,5 +6,5 @@ class AppRoutes {
   static const verifyAccountScreen = '/verifyAccountScreen';
   static const forgotPasswordScreen = '/forgotPasswordScreen';
   static const createNewPasswordScreen = '/createNewPasswordScreen';
-  
+  static const profileScreen = '/profileScreen';
 }

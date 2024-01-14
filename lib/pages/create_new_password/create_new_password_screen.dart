@@ -8,7 +8,7 @@ import 'package:todo_app/utils/validation_mixin.dart';
 import 'package:todo_app/widget/common/custom_appbar.dart';
 import 'package:todo_app/widget/common/custom_button.dart';
 import 'package:todo_app/widget/common/custom_textfield.dart';
-import 'package:todo_app/widget/loader.dart';
+import 'package:todo_app/components/loader.dart';
 
 class CreateNewPasswordScreen extends StatelessWidget with ValidationsMixin {
   CreateNewPasswordScreen({super.key});

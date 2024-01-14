@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/routes/app_page.dart';
-import 'package:todo_app/widget/loader.dart';
+import 'package:todo_app/components/loader.dart';
 
-class SigninController extends GetxController {
+class SigninController extends GetxService {
   GlobalKey<FormState> signinFormKey = GlobalKey<FormState>();
 
   final hidePassword = true.obs;
@@ -36,7 +36,6 @@ class SigninController extends GetxController {
           password: password.text.toString(),
         );
         Get.back();
-        Get.toNamed(AppRoutes.homeScreen);
         Get.offAllNamed(AppRoutes.homeScreen);
       } on FirebaseAuthException catch (error) {
         Get.back();
@@ -51,6 +50,4 @@ class SigninController extends GetxController {
       }
     }
   }
-
-  void gotoHomeScreen() {}
 }

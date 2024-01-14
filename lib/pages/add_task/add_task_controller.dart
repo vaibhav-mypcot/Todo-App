@@ -11,8 +11,6 @@ class AddTaskController extends GetxController {
 
   final task = TextEditingController();
 
-  
-
   Future<void> onAddTaskClicked() async {
     if (taskFormKey.currentState!.validate()) {
       try {

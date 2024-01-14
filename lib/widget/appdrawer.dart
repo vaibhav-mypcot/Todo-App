@@ -7,7 +7,7 @@ import 'package:todo_app/pages/signin/signin_controller.dart';
 import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
-import 'package:todo_app/widget/loader.dart';
+import 'package:todo_app/components/loader.dart';
 
 class AppDrawerWidget extends StatefulWidget {
   AppDrawerWidget({super.key});
@@ -47,13 +47,13 @@ class _AppDrawerState extends State<AppDrawerWidget> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      backgroundColor: kColorWhite,
-                      child: Text(
-                        firstChar.toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 24.0, color: kColorPrimary),
-                      ), //Text
+                    ClipOval(
+                      child: Image.network(
+                        controller.userData["image_url"],
+                        fit: BoxFit.cover,
+                        height: 40.h,
+                        width: 40.h,
+                      ),
                     ),
                     SizedBox(height: 14),
                     Text(

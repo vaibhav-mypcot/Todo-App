@@ -31,18 +31,15 @@ class HomeScreen extends StatelessWidget {
     await player.play(
       UrlSource(url),
     );
-
-    // await player.play(
-    //   AssetSource(audioPath),
-    // );
   }
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference querySnapshot = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> querySnapshot = FirebaseFirestore.instance
         .collection('task_list')
         .doc(signinController.auth.currentUser!.uid)
-        .collection('notes');
+        .collection('notes')
+        .orderBy('task');
 
     return Scaffold(
       backgroundColor: kColorWhite,
@@ -95,11 +92,11 @@ class HomeScreen extends StatelessWidget {
                           Map data = snapshot.data?.docs[index].data() as Map;
                           String task = data['task'];
                           bool isCompleted = data['isCompleted'];
-    
+
                           QueryDocumentSnapshot documentSnapshot =
                               snapshot.data!.docs[index];
                           String docID = documentSnapshot.reference.id;
-    
+
                           return Dismissible(
                             key: Key(docID),
                             background: const Card(

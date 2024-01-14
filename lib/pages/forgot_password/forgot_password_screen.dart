@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/components/loader.dart';
 import 'package:todo_app/pages/forgot_password/forgot_password_controller.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
@@ -8,12 +9,13 @@ import 'package:todo_app/utils/validation_mixin.dart';
 import 'package:todo_app/widget/common/custom_appbar.dart';
 import 'package:todo_app/widget/common/custom_button.dart';
 import 'package:todo_app/widget/common/custom_textfield.dart';
-import 'package:todo_app/widget/loader.dart';
 
 class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
   ForgotPasswordScreen({super.key});
 
   final forgotPasswordController = Get.find<ForgotPasswordController>();
+
+  String getPass = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +67,11 @@ class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
                                   ),
                                   SizedBox(height: 6.h),
                                   CustomTextField(
-                                    controller: ForgotPasswordController.verifyEmail,
+                                    controller:
+                                        ForgotPasswordController.verifyEmail,
                                     hintText: 'Enter your email',
-                                    hintStyle: kTextStyleGabaritoRegular.copyWith(
+                                    hintStyle:
+                                        kTextStyleGabaritoRegular.copyWith(
                                       fontSize: 14.sp,
                                       color: kColorGreyNeutral400,
                                     ),
@@ -98,9 +102,16 @@ class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
                 child: CustomButton(
                   label: "Send Reset Instruction",
                   press: () async {
-                    // Utils.showLoader();
-                   forgotPasswordController.onForgotClick();
-                    // Get.back();
+                    print(getPass);
+                    if (getPass == "forgot_password") {
+                      Utils.showLoader();
+                      forgotPasswordController.onResetPassword();
+                      Get.back();
+                    } else {
+                      // Utils.showLoader();
+                      forgotPasswordController.onUpdatePasswordClick();
+                      // Get.back();
+                    }
                   },
                 ),
               ),

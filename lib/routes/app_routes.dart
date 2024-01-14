@@ -7,8 +7,9 @@ import 'package:todo_app/pages/forgot_password/forgot_password_binding.dart';
 import 'package:todo_app/pages/forgot_password/forgot_password_screen.dart';
 import 'package:todo_app/pages/home/home_binding.dart';
 import 'package:todo_app/pages/home/home_screen.dart';
+import 'package:todo_app/pages/profile_page/profile_binding.dart';
+import 'package:todo_app/pages/profile_page/profile_screen.dart';
 import 'package:todo_app/pages/register/register_binding.dart';
-
 import 'package:todo_app/pages/register/register_screen.dart';
 import 'package:todo_app/pages/signin/signin_binding.dart';
 import 'package:todo_app/pages/signin/signin_screen.dart';
@@ -52,6 +53,11 @@ class AppPages {
       name: AppRoutes.createNewPasswordScreen,
       page: () => CreateNewPasswordScreen(),
       binding: CreateNewPasswordBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.profileScreen,
+      page: () => ProfileScreen(),
+      binding: ProfileBinding(),
     ),
   ];
 }

@@ -46,6 +46,7 @@ dependencies:
   uuid: ^4.3.2
   audioplayers: ^5.2.1
   http: ^1.1.2
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:

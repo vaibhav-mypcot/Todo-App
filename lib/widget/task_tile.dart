@@ -1,14 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
 
 class TaskTile extends StatelessWidget {
-  TaskTile(
-      {super.key,
-      required this.taskName,
-      required this.taskCompleted,
-      required this.onChanged});
+  TaskTile({
+    super.key,
+    required this.taskName,
+    required this.taskCompleted,
+    required this.onChanged,
+  });
 
   final String taskName;
   final bool taskCompleted;

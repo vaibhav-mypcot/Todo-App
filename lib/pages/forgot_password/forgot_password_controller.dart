@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/components/snackbar_component.dart';
 import 'package:todo_app/routes/app_page.dart';
-
 import 'package:todo_app/theme/colors.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,7 +15,24 @@ class ForgotPasswordController extends GetxController {
 
   static final verifyEmail = TextEditingController();
 
-  void onForgotClick() async {
+  // Reset password
+
+  void onResetPassword() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: verifyEmail.text.toString())
+          .then((value) => {
+                SnackbarCompnent.showSnackbar(
+                    "Congratulation", "Email Sent", Colors.green),
+                Get.offAllNamed(AppRoutes.signinScreen),
+              });
+    } catch (error) {
+      SnackbarCompnent.showSnackbar("Smothing wen wrong", "$error", Colors.red);
+    }
+  }
+
+  // Update password
+  void onUpdatePasswordClick() async {
     if (forgotPasswordFormKey.currentState!.validate()) {
       Get.snackbar(
         'Congratulation',

@@ -19,6 +19,7 @@ class SigninScreen extends StatelessWidget with ValidationsMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kColorWhite,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -125,7 +126,8 @@ class SigninScreen extends StatelessWidget with ValidationsMixin {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => Get.toNamed(AppRoutes.forgotPasswordScreen),
+                  onTap: () => Get.toNamed(AppRoutes.forgotPasswordScreen,
+                      arguments: "forgot_password"),
                   child: Container(
                     alignment: Alignment.centerRight,
                     padding: EdgeInsets.only(right: 20.w, top: 12.h),

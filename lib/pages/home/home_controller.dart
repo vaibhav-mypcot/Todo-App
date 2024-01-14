@@ -50,11 +50,6 @@ class HomeController extends GetxController {
     }
   }
 
-  // Future<QuerySnapshot> usersTasks = FirebaseFirestore.instance
-  //         .collection('task_list')
-  //         .doc(FirebaseAuth.instance.currentUser!.uid)
-  //         .collection('notes').get();
-
   // retrive userdata from firestore
   Future<void> getUserData() async {
     try {
@@ -80,9 +75,8 @@ class HomeController extends GetxController {
   }
 
   //////////////////////
-  ///
-  final RxList<DocumentSnapshot> notes = <DocumentSnapshot>[].obs;
-  Future<void> fetchData() async {
+
+  void fetchData() async {
     User? user = FirebaseAuth.instance.currentUser;
     String userId = user!.uid;
     try {
@@ -91,9 +85,6 @@ class HomeController extends GetxController {
           .doc(userId)
           .collection('notes')
           .get();
-
-      notes.assignAll(querySnapshot.docs);
-      print("new data printed: ${notes}");
     } catch (e) {
       print('Error fetching data: $e');
     }
@@ -104,12 +95,11 @@ class HomeController extends GetxController {
   }
 
   void checkBoxChanged(bool? value, index) async {
-    CollectionReference querySnapshot = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> querySnapshot = FirebaseFirestore.instance
         .collection('task_list')
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('notes');
-    // Map data = snapshot.data?.docs[index].data() as Map;
-    // Map data = querySnapshot.data?.doc[index].data.get as Map;
+        .collection('notes')
+        .orderBy('task');
 
     QuerySnapshot getData = await querySnapshot.get();
     Map data = getData.docs[index].data() as Map;
