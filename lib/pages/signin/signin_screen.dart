@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/components/loader.dart';
 import 'package:todo_app/pages/signin/signin_controller.dart';
 import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
@@ -146,11 +147,14 @@ class SigninScreen extends StatelessWidget with ValidationsMixin {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomButton(
+                    color: kColorPrimary,
+                    textColor: kColorWhite,
                     label: "Login",
                     press: () async {
+                      Utils.showLoader();
                       await signinController.onLoginClicked();
-
-                      // signinController.gotoHomeScreen();
+                      Get.back();
+                     
                     },
                   ),
                 ),

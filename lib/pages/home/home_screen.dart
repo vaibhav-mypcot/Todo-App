@@ -3,13 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:svg_flutter/svg.dart';
 import 'package:todo_app/components/home_components/empty_screen.dart';
-import 'package:todo_app/const/const.dart';
 import 'package:todo_app/pages/home/home_controller.dart';
 import 'package:todo_app/pages/signin/signin_controller.dart';
 import 'package:todo_app/theme/colors.dart';
-import 'package:todo_app/theme/text_styles.dart';
+
 import 'package:todo_app/widget/appdrawer.dart';
 import 'package:todo_app/widget/bottom_appbar.dart';
 import 'package:todo_app/widget/task_tile.dart';
@@ -19,7 +17,7 @@ class HomeScreen extends StatelessWidget {
 
   final homeController = Get.find<HomeController>();
 
-  final signinController = Get.find<SigninController>();
+  final signinController = Get.put(SigninController());
 
   final player = AudioPlayer();
 
@@ -48,7 +46,6 @@ class HomeScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           homeController.gotoAddNewTaskScreen();
-          print("length of list: ${homeController.userTaskData.length}");
         },
         backgroundColor: kColorPrimary,
         shape: CircleBorder(),
@@ -59,17 +56,12 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        title: Text(
-          'Index',
-          style: kTextStyleGabaritoMedium.copyWith(
-            fontSize: 21,
-            color: kColorBlackNeutral800,
-          ),
-        ),
         centerTitle: true,
         backgroundColor: kColorWhite,
       ),
-      drawer: AppDrawerWidget(),
+      drawer: AppDrawerWidget(onClearData: () {
+        signinController.onClearData();
+      }),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,6 +84,8 @@ class HomeScreen extends StatelessWidget {
                           Map data = snapshot.data?.docs[index].data() as Map;
                           String task = data['task'];
                           bool isCompleted = data['isCompleted'];
+                          String time = data['time'];
+                          String date = data['date'];
 
                           QueryDocumentSnapshot documentSnapshot =
                               snapshot.data!.docs[index];
@@ -118,12 +112,24 @@ class HomeScreen extends StatelessWidget {
                                   .delete();
                             },
                             child: TaskTile(
-                                taskName: task.toString(),
-                                taskCompleted: isCompleted,
-                                onChanged: (value) {
-                                  homeController.checkBoxChanged(value, index);
-                                  playAudio();
-                                }),
+                              documentId: docID,
+                              currentTime: time,
+                              currentDate: date,
+                              taskName: task.toString(),
+                              taskCompleted: isCompleted,
+                              onChanged: (value) {
+                                homeController.checkBoxChanged(value, index);
+                                playAudio();
+                              },
+                              onDelete: (docId) {
+                                FirebaseFirestore.instance
+                                    .collection('task_list')
+                                    .doc(signinController.auth.currentUser!.uid)
+                                    .collection('notes')
+                                    .doc(docID)
+                                    .delete();
+                              },
+                            ),
                           );
                         },
                       ),
@@ -132,26 +138,7 @@ class HomeScreen extends StatelessWidget {
                 } else {
                   return Container(
                     margin: EdgeInsets.only(top: 90.h),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          SvgPicture.asset(
-                            Const().emptyImg,
-                            fit: BoxFit.cover,
-                          ),
-                          Text(
-                            "What do you want to do today?",
-                            style: kTextStyleGabaritoMedium.copyWith(
-                                fontSize: 18, color: kColorGreyNeutral600),
-                          ),
-                          Text(
-                            "Tap + to add your task",
-                            style: kTextStyleGabaritoMedium.copyWith(
-                                fontSize: 16, color: kColorGreyNeutral400),
-                          )
-                        ],
-                      ),
-                    ),
+                    child: Center(child: EmptyScreen()),
                   );
                 }
               },

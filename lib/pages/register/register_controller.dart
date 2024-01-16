@@ -11,7 +11,7 @@ import 'package:todo_app/components/snackbar_component.dart';
 import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
 
-class RegisterController extends GetxController {
+class RegisterController extends GetxService {
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
 
   final hidePassword = true.obs;
@@ -23,12 +23,10 @@ class RegisterController extends GetxController {
   final password = TextEditingController();
   final confirmPassword = TextEditingController();
 
-  Rx<File?> pickedImageFile = Rx<File?>(null);
+  static Rx<File?> pickedImageFile = Rx<File?>(null);
 
   // Initiazlizing Firebase
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  static String? uniqueId;
 
   Future<void> onCreateAccount() async {
     if (registerFormKey.currentState!.validate()) {
@@ -114,7 +112,7 @@ class RegisterController extends GetxController {
   }
 
   // Bottom Sheet
-  void showOptionsBottomSheet() {
+  static void showOptionsBottomSheet() {
     Get.bottomSheet(
       backgroundColor: kColorWhite,
       Container(
@@ -129,7 +127,7 @@ class RegisterController extends GetxController {
               ),
               title: Text('Camera'),
               onTap: () {
-                uploadImageFromCamera();
+                RegisterController().uploadImageFromCamera();
                 Get.back();
               },
             ),
@@ -140,7 +138,7 @@ class RegisterController extends GetxController {
               ),
               title: Text('Gallery'),
               onTap: () {
-                uploadImageFromGallery();
+                RegisterController().uploadImageFromGallery();
                 Get.back();
               },
             ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
 
 class BottomAppbarWidget extends StatelessWidget {
@@ -46,7 +48,7 @@ class BottomAppbarWidget extends StatelessWidget {
                 size: 24.h,
                 color: kColorGreyNeutral500,
               ),
-              onPressed: () {},
+              onPressed: () => Get.toNamed(AppRoutes.profileScreen),
             )
           ],
         ),

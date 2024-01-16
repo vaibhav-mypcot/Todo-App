@@ -226,6 +226,8 @@ class CreateNewPasswordScreen extends StatelessWidget with ValidationsMixin {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CustomButton(
+                  color: kColorPrimary,
+                  textColor: kColorWhite,
                   label: "Send Reset Instruction",
                   press: () async {
                     // Utils.showLoader();

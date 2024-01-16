@@ -77,9 +77,29 @@ mixin ValidationsMixin {
     return null;
   }
 
-  String? validateOTPCode(String? value){
-    if(value == null || value.isEmpty || value.length < 3){
+  String? validateOTPCode(String? value) {
+    if (value == null || value.isEmpty || value.length < 3) {
       return 'Please enter a valid code';
+    }
+    return null;
+  }
+
+  String? validPhoneNumber(String? value) {
+    if (value == null ||
+        value.isEmpty ||
+        value.length > 10 ||
+        value.length < 10) {
+      return 'Please enter a valid phone number';
+    }
+    return null;
+  }
+
+  String? validOtp(String? value) {
+    if (value == null ||
+        value.isEmpty ||
+        value.length > 6 ||
+        value.length < 6) {
+      return 'Please enter a valid phone number';
     }
     return null;
   }

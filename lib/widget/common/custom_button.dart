@@ -8,10 +8,15 @@ class CustomButton extends StatelessWidget {
     super.key,
     required this.label,
     required this.press,
+    required this.color,
+    required this.textColor,
+    this.borderColor,
   });
 
   final String label;
   final VoidCallback press;
+  final Color color, textColor;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +27,17 @@ class CustomButton extends StatelessWidget {
         width: double.infinity,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: kColorPrimary,
-          borderRadius: BorderRadius.circular(46.r),
-        ),
+            color: color,
+            borderRadius: BorderRadius.circular(46.r),
+            border: Border.all(
+              color: borderColor ?? kColorWhite,
+              width: 2,
+            )),
         child: Text(
           label,
           style: kTextStyleGabaritoMedium.copyWith(
             fontSize: 14.sp,
-            color: kColorWhite,
+            color: textColor,
           ),
         ),
       ),

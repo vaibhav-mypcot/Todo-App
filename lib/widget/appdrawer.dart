@@ -10,7 +10,14 @@ import 'package:todo_app/theme/text_styles.dart';
 import 'package:todo_app/components/loader.dart';
 
 class AppDrawerWidget extends StatefulWidget {
-  AppDrawerWidget({super.key});
+  AppDrawerWidget({
+    super.key,
+    required this.onClearData,
+  });
+
+  // final String fName, lName, email;
+  // final NetworkImage profileImage;
+  final Function onClearData;
 
   @override
   State<AppDrawerWidget> createState() => _AppDrawerState();
@@ -23,7 +30,6 @@ class _AppDrawerState extends State<AppDrawerWidget> {
   var isDark = false;
 
   final controller = Get.find<HomeController>();
-  final signinController = Get.find<SigninController>();
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +45,24 @@ class _AppDrawerState extends State<AppDrawerWidget> {
               alignment: Alignment.topLeft,
               padding: EdgeInsets.fromLTRB(18.w, 26.h, 0.w, 0.h),
               child: Obx(() {
-                String firstLetter = controller.userData["first_name"];
-                String name = controller.userData["last_name"];
-                String email = controller.userData["email"];
-                String fullName = "$firstLetter $name";
-                var firstChar = firstLetter[0].toUpperCase.toString;
+                String? firstLetter = controller.userData["first_name"];
+                String? name = controller.userData["last_name"];
+                String? email = controller.userData["email"];
+                String? fullName;
+                if (firstLetter != null || name != null) {
+                  fullName = "$firstLetter $name";
+                } else {
+                  fullName = "Jhon Doe";
+                }
+
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipOval(
-                      child: Image.network(
-                        controller.userData["image_url"],
-                        fit: BoxFit.cover,
-                        height: 40.h,
-                        width: 40.h,
+                    CircleAvatar(
+                      radius: 26.0,
+                      backgroundImage: NetworkImage(
+                        controller.userData["image_url"] ??
+                            'https://www.nicepng.com/maxp/u2y3a9e6t4o0a9w7/',
                       ),
                     ),
                     SizedBox(height: 14),
@@ -62,7 +72,7 @@ class _AppDrawerState extends State<AppDrawerWidget> {
                           fontSize: 18.sp, color: kColorWhite),
                     ),
                     Text(
-                      email.toString(),
+                      email == null ? "jhon@gmail.com" : email.toString(),
                       style: kTextStyleGabaritoRegular.copyWith(
                           fontSize: 14.sp, color: kColorGreyNeutral200),
                     ) //circleAvata
@@ -144,8 +154,7 @@ class _AppDrawerState extends State<AppDrawerWidget> {
             onTap: () async {
               Utils.showLoader();
               await FirebaseAuth.instance.signOut();
-              signinController.email.clear();
-              signinController.password.clear();
+              widget.onClearData();
               Get.back();
               Get.until((route) => Get.currentRoute == AppRoutes.signinScreen);
             },

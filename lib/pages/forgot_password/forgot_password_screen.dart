@@ -15,7 +15,7 @@ class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
 
   final forgotPasswordController = Get.find<ForgotPasswordController>();
 
-  String getPass = Get.arguments;
+  String? getPass = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -100,9 +100,10 @@ class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CustomButton(
+                  color: kColorPrimary,
+                  textColor: kColorWhite,
                   label: "Send Reset Instruction",
                   press: () async {
-                    print(getPass);
                     if (getPass == "forgot_password") {
                       Utils.showLoader();
                       forgotPasswordController.onResetPassword();

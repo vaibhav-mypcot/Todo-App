@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/localization/localization_data.dart';
 import 'package:todo_app/pages/signin/signin_binding.dart';
+import 'package:todo_app/pages/welcome_page/welcome_binding.dart';
 import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/routes/app_routes.dart';
 import 'package:todo_app/theme/colors.dart';
@@ -39,9 +40,9 @@ class MyApp extends StatelessWidget {
         locale: Get.deviceLocale,
         fallbackLocale: const Locale('en'),
         debugShowCheckedModeBanner: false,
-        initialRoute: AppRoutes.signinScreen,
+        initialRoute: AppRoutes.welcomeScreen,
         getPages: AppPages.getPages,
-        initialBinding: SigninBinding(),
+        initialBinding: WelcomeBindings(),
         theme: ThemeData(
           primaryColor: kColorPrimary,
           brightness: Brightness.light,

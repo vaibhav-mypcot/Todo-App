@@ -142,7 +142,7 @@ class VerifyAccountScreen extends StatelessWidget with ValidationsMixin {
                       // Utils.showLoader();
                       verifyAccountController.onVerifyClick();
                       // Get.back();
-                    },
+                    }, color: kColorPrimary, textColor: kColorWhite,
                   ),
                 ),
               ),

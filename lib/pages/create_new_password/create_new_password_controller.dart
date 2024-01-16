@@ -51,28 +51,38 @@ class CreateNewPasswordController extends GetxController {
         //
         print("No user found with the entered email");
       }
+
+      // Here we are updating the password by getting the email and password from the database
+      final currentUser = FirebaseAuth.instance.currentUser;
+      var cred = EmailAuthProvider.credential(
+          email: enteredEmail, password: storedPassword!);
+
+      await currentUser!.reauthenticateWithCredential(cred).then((value) {
+        currentUser.updatePassword(confirmPassword.text.toString());
+      }).catchError((onError) {
+        print(onError.toString());
+      });
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .update(
+        {
+          "password": confirmPassword.text.toString(),
+          "confirm_password": confirmPassword.text.toString(),
+        },
+      );
+
+      Get.snackbar(
+        'Congratulation',
+        'Your password is successfully updated',
+        colorText: kColorPrimary,
+      );
+
+      Get.offAllNamed(AppRoutes.signinScreen);
     } catch (e) {
       print('Error authenticating user: $e');
     }
-
-    // Here we are updating the password by getting the email and password from the database
-    final currentUser = FirebaseAuth.instance.currentUser;
-    var cred = EmailAuthProvider.credential(
-        email: enteredEmail, password: storedPassword!);
-
-    await currentUser!.reauthenticateWithCredential(cred).then((value) {
-      currentUser!.updatePassword(confirmPassword.text.toString());
-    }).catchError((onError) {
-      print(onError.toString());
-    });
-
-    Get.snackbar(
-      'Congratulation',
-      'Your password is successfully updated',
-      colorText: kColorPrimary,
-    );
-
-    Get.offAllNamed(AppRoutes.signinScreen);
 
     print("This is your email: ${enteredEmail} ");
     print("This is your password: ${storedPassword} ");

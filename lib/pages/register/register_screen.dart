@@ -48,7 +48,7 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                           // Uplaod profile image
                           Obx(() {
                             final pickedImageFile =
-                                registerController.pickedImageFile.value;
+                                RegisterController.pickedImageFile.value;
                             return SizedBox(
                               height: 115,
                               width: 115,
@@ -62,20 +62,20 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                                                 "assets/images/profile_image.png")
                                             as ImageProvider,
                                   ),
-                                  Positioned(
+                                  const Positioned(
                                     bottom: 0,
                                     right: -25,
                                     child: RawMaterialButton(
-                                      onPressed: registerController
+                                      onPressed: RegisterController
                                           .showOptionsBottomSheet,
                                       elevation: 2.0,
                                       fillColor: Color(0xFFF5F6F9),
+                                      padding: EdgeInsets.all(8.0),
+                                      shape: CircleBorder(),
                                       child: Icon(
                                         Icons.camera_alt_outlined,
                                         color: kColorPrimary,
                                       ),
-                                      padding: EdgeInsets.all(8.0),
-                                      shape: CircleBorder(),
                                     ),
                                   ),
                                 ],
@@ -275,7 +275,7 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                             padding: EdgeInsets.only(
                               left: 16.w,
                               right: 16.w,
-                              bottom: 174.h,
+                              bottom: 16.h,
                             ),
                             child: Row(
                               children: [
@@ -334,6 +334,27 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                               ],
                             ),
                           ),
+                          // Submit Button
+                          Container(
+                            // margin: EdgeInsets.only(top: 14.h),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: 16.w,
+                                right: 16.w,
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom,
+                              ),
+                              child: CustomButton(
+                                  color: kColorPrimary,
+                                  textColor: kColorWhite,
+                                  label: "Create Account",
+                                  press: () async {
+                                    Utils.showLoader();
+                                    await registerController.onCreateAccount();
+                                    Get.back();
+                                  }),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -341,21 +362,6 @@ class RegisterScreen extends StatelessWidget with ValidationsMixin {
                 ),
               ),
             ),
-            // Submit Button
-            Container(
-              // margin: EdgeInsets.only(top: 14.h),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: CustomButton(
-                    label: "Create Account",
-                    press: () async {
-                      Utils.showLoader();
-                      await registerController.onCreateAccount();
-                      Get.back();
-                    }),
-              ),
-            ),
-            SizedBox(height: 24.h),
           ],
         ),
       ),

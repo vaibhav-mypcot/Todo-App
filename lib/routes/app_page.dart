@@ -7,4 +7,8 @@ class AppRoutes {
   static const forgotPasswordScreen = '/forgotPasswordScreen';
   static const createNewPasswordScreen = '/createNewPasswordScreen';
   static const profileScreen = '/profileScreen';
+  static const editProfileScreen = '/editProfileScreen';
+  static const welcomeScreen = '/welcomeScreen';
+  static const mobileSigninScreen = '/mobileNumberScreen';
+  static const otpScreen = '/otpScreen';
 }

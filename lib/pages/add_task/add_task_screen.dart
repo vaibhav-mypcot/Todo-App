@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/components/loader.dart';
 import 'package:todo_app/pages/add_task/add_task_controller.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
@@ -24,7 +25,9 @@ class AddTaskScreen extends StatelessWidget with ValidationsMixin {
             key: taskController.taskFormKey,
             child: Column(
               children: [
-                 CustomAppbar(press: () => Get.back(),),
+                CustomAppbar(
+                  press: () => Get.back(),
+                ),
 
                 // Task form
                 Padding(
@@ -69,8 +72,14 @@ class AddTaskScreen extends StatelessWidget with ValidationsMixin {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: CustomButton(
+                    color: kColorPrimary,
+                    textColor: kColorWhite,
                     label: "Add Task",
-                    press: () => taskController.onAddTaskClicked(),
+                    press: () async {
+                      Utils.showLoader();
+                      await taskController.onAddTaskClicked();
+                      Get.back();
+                    },
                   ),
                 ),
               ],

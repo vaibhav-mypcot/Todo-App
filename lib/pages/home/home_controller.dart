@@ -18,6 +18,8 @@ class HomeController extends GetxController {
   RxDouble width = 200.0.obs;
   RxDouble height = 50.0.obs;
 
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+
   void toggleSize() {
     // Change the width and height
     width.value = width.value == 200.0 ? 250.0 : 200.0;
@@ -91,7 +93,7 @@ class HomeController extends GetxController {
   }
 
   void gotoAddNewTaskScreen() {
-    Get.toNamed(AppRoutes.addTaskScreen);
+    Get.offAllNamed(AppRoutes.addTaskScreen);
   }
 
   void checkBoxChanged(bool? value, index) async {
@@ -113,9 +115,6 @@ class HomeController extends GetxController {
 
     // try to update value in fire store
     try {
-      User? user = FirebaseAuth.instance.currentUser;
-      String userId = user!.uid;
-
       await FirebaseFirestore.instance
           .collection('task_list')
           .doc(userId) // Replace with the actual user ID
@@ -124,6 +123,20 @@ class HomeController extends GetxController {
           .update({'isCompleted': value});
     } catch (e) {
       print('Error updating Firestore: $e');
+    }
+  }
+
+  // delete tile
+  void onDeleteTile(String docId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('task_list')
+          .doc(userId)
+          .collection('notes')
+          .doc(docId)
+          .delete();
+    } catch (e) {
+      print('Error deleting Firestore: $e');
     }
   }
 }
