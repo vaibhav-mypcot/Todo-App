@@ -34,16 +34,16 @@ class _AppDrawerState extends State<AppDrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: kColorWhite,
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          DrawerHeader(
+          Container(
             padding: EdgeInsets.zero,
             child: Container(
               color: kColorPrimary,
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(18.w, 26.h, 0.w, 0.h),
+              padding: EdgeInsets.fromLTRB(18.w, 56.h, 0.w, 10.h),
               child: Obx(() {
                 String? firstLetter = controller.userData["first_name"];
                 String? name = controller.userData["last_name"];
@@ -152,11 +152,8 @@ class _AppDrawerState extends State<AppDrawerWidget> {
             leading: Icon(Icons.logout_outlined),
             title: Text('Logout'),
             onTap: () async {
-              Utils.showLoader();
-              await FirebaseAuth.instance.signOut();
+              Utils.showAlert();
               widget.onClearData();
-              Get.back();
-              Get.until((route) => Get.currentRoute == AppRoutes.signinScreen);
             },
           ),
         ],

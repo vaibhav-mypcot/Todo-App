@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
 
@@ -26,36 +28,69 @@ class Utils {
   static void showAlert() {
     Get.dialog(
       AlertDialog(
+        backgroundColor: kColorPrimaryLight,
         content: Padding(
-          padding: EdgeInsets.fromLTRB(16.h, 16.w, 16.h, 0.h),
+          padding: EdgeInsets.fromLTRB(6.h, 6.w, 6.h, 0.h),
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Please check your email for password reset instructions. \nIt's important to use your Google email to receive the reset details.",
-                textAlign: TextAlign.center,
+                "Confirm logout...!!!",
                 style: kTextStyleGabaritoRegular.copyWith(
-                  fontSize: 14.sp,
-                  color: kColorGreyNeutral600,
+                  fontSize: 16.sp,
+                  color: kColorBlackNeutral800,
+                ),
+              ),
+              Text(
+                "Are you sure, you want to logout",
+                style: kTextStyleGabaritoRegular.copyWith(
+                  fontSize: 12.sp,
+                  color: kColorGreyNeutral500,
                 ),
               ),
               SizedBox(height: 12.h),
-              ElevatedButton(
-                onPressed: () {
-                  Get.back();
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: kColorPrimary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    )),
-                child: Text(
-                  'Okay',
-                  style: kTextStyleGabaritoRegular.copyWith(
-                    fontSize: 14.sp,
-                    color: kColorWhite,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: kColorGreyNeutral400,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        )),
+                    child: Text(
+                      'No',
+                      style: kTextStyleGabaritoRegular.copyWith(
+                        fontSize: 14.sp,
+                        color: kColorWhite,
+                      ),
+                    ),
                   ),
-                ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      Utils.showLoader();
+                      await FirebaseAuth.instance.signOut();
+                      Get.offAllNamed(AppRoutes.welcomeScreen);
+                      Get.back();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        )),
+                    child: Text(
+                      'Yes',
+                      style: kTextStyleGabaritoRegular.copyWith(
+                        fontSize: 14.sp,
+                        color: kColorWhite,
+                      ),
+                    ),
+                  ),
+                ],
               )
             ],
           ),

@@ -25,7 +25,6 @@ class EditProfileScreen extends StatelessWidget with ValidationsMixin {
     String email = controller.userData["email"];
 
     return Scaffold(
-      backgroundColor: kColorWhite,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Column(
@@ -164,49 +163,6 @@ class EditProfileScreen extends StatelessWidget with ValidationsMixin {
                           ),
                           // email address
                           SizedBox(height: 12.h),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'E-mail',
-                                        style:
-                                            kTextStyleGabaritoRegular.copyWith(
-                                          fontSize: 14.sp,
-                                          color: kColorBlackNeutral800,
-                                        ),
-                                      ),
-                                      SizedBox(height: 6.h),
-                                      CustomTextField(
-                                        controller:
-                                            editProfileController.newEmail,
-                                        hintText: email.toString(),
-                                        hintStyle:
-                                            kTextStyleGabaritoRegular.copyWith(
-                                          fontSize: 14.sp,
-                                          color: kColorGreyNeutral400,
-                                        ),
-                                        radius: 8,
-                                        style:
-                                            kTextStyleGabaritoRegular.copyWith(
-                                          fontSize: 14.sp,
-                                          color: kColorGreyNeutral600,
-                                        ),
-                                        textInputType:
-                                            TextInputType.emailAddress,
-                                        validator: validateEmail,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -220,7 +176,7 @@ class EditProfileScreen extends StatelessWidget with ValidationsMixin {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CustomButton(
-                  color: kColorPrimary,
+                    color: kColorPrimary,
                     textColor: kColorWhite,
                     label: "Update Account",
                     press: () async {

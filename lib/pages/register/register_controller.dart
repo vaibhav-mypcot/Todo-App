@@ -1,13 +1,17 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:todo_app/components/loader.dart';
 import 'package:todo_app/components/snackbar_component.dart';
+import 'package:todo_app/const/const.dart';
 import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
 
@@ -28,14 +32,17 @@ class RegisterController extends GetxService {
   // Initiazlizing Firebase
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> onCreateAccount() async {
-    if (registerFormKey.currentState!.validate()) {
-      if (pickedImageFile.value == null) {
-        Get.back();
-        SnackbarCompnent.showSnackbar(
-            "Attention!", "Please set profile image", Colors.red);
-      }
+  Future<Uint8List> loadImageData() async {
+    final ByteData data =
+        await rootBundle.load('assets/images/profile_image.png');
+    return data.buffer.asUint8List();
+  }
 
+  Future<void> onCreateAccount() async {
+    ByteData data = await rootBundle.load(Const().profileImage);
+    List<int> bytes = data.buffer.asUint8List();
+
+    if (registerFormKey.currentState!.validate()) {
       try {
         final userCredential = await _auth.createUserWithEmailAndPassword(
             email: email.text, password: confirmPassword.text);
@@ -46,7 +53,12 @@ class RegisterController extends GetxService {
             .child('user-images')
             .child('${userCredential.user!.uid}.jpg');
 
-        await storageRef.putFile(pickedImageFile.value!);
+        if (pickedImageFile.value == null) {
+          await storageRef.putData(Uint8List.fromList(bytes));
+        } else {
+          await storageRef.putFile(pickedImageFile.value!);
+        }
+
         final imageURL = await storageRef.getDownloadURL();
 
         // Create firestore collection to store data
@@ -68,15 +80,21 @@ class RegisterController extends GetxService {
 
         // Showing Snackbar of Successfully account is created
         SnackbarCompnent.showSnackbar(
-            "Congratulation", "Account created successfully", Colors.green);
+          "Congratulation",
+          "Account created successfully",
+          Colors.green,
+        );
 
         // Get.toNamed(AppRoutes.homeScreen);
         Get.offAllNamed(AppRoutes.homeScreen);
       } on FirebaseAuthException catch (error) {
-        if (error.code == 'email-already-in-use') {}
+        print("email is wrong");
         Get.back();
-        SnackbarCompnent.showSnackbar(error.message ?? "Registration failed",
-            "Please try again", Colors.red);
+        if (error.code == 'email-already-in-use') {}
+        SnackbarCompnent.showSnackbar(
+            error.message.toString() ?? "Registration failed",
+            "Please try again",
+            Colors.red);
       }
     }
   }

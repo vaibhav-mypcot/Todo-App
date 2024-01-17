@@ -19,7 +19,6 @@ class ProfileScreen extends StatelessWidget {
     String email = controller.userData["email"];
 
     return Scaffold(
-      backgroundColor: kColorWhite,
       body: SafeArea(
         child: Column(
           children: [

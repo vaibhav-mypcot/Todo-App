@@ -16,6 +16,9 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final homeController = Get.find<HomeController>();
+  // final homeController = Get.put(HomeController());
+
+  // final signinController = Get.find<SigninController>();
 
   final signinController = Get.put(SigninController());
 
@@ -37,10 +40,12 @@ class HomeScreen extends StatelessWidget {
         .collection('task_list')
         .doc(signinController.auth.currentUser!.uid)
         .collection('notes')
-        .orderBy('task');
+        .orderBy(
+          'time',
+          descending: true,
+        );
 
     return Scaffold(
-      backgroundColor: kColorWhite,
       bottomNavigationBar: BottomAppbarWidget(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -57,7 +62,6 @@ class HomeScreen extends StatelessWidget {
       ),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: kColorWhite,
       ),
       drawer: AppDrawerWidget(onClearData: () {
         signinController.onClearData();

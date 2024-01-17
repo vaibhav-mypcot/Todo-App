@@ -151,10 +151,7 @@ class SigninScreen extends StatelessWidget with ValidationsMixin {
                     textColor: kColorWhite,
                     label: "Login",
                     press: () async {
-                      Utils.showLoader();
                       await signinController.onLoginClicked();
-                      Get.back();
-                     
                     },
                   ),
                 ),

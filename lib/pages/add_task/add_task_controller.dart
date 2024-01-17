@@ -3,16 +3,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_app/pages/home/home_screen.dart';
 import 'package:todo_app/routes/app_page.dart';
 import 'package:uuid/uuid.dart';
 
 class AddTaskController extends GetxController {
   GlobalKey<FormState> taskFormKey = GlobalKey<FormState>();
   String currentDate = DateFormat('dd MMM yyyy').format(DateTime.now());
-  String currentTime = DateFormat.jm().format(DateTime.now());
+  String currentTime = DateFormat('HH:mm:ss').format(DateTime.now());
+  int counter = 0;
 
   final task = TextEditingController();
+
+  void increment() {
+    counter = counter + 1;
+    print("incremet: $counter");
+  }
 
   Future<void> onAddTaskClicked() async {
     if (taskFormKey.currentState!.validate()) {
@@ -31,10 +36,12 @@ class AddTaskController extends GetxController {
             .collection('notes')
             .doc(randomString)
             .set({
+          'id': counter,
           'task': task.text.toString(),
           'isCompleted': false,
           'date': currentDate,
           'time': currentTime,
+
         });
 
         Get.snackbar(
@@ -47,7 +54,8 @@ class AddTaskController extends GetxController {
 
         // taskFormKey.currentState!.reset();
         task.clear();
-        Get.until((HomeScreen) => false);
+        Get.toNamed(AppRoutes.homeScreen);
+        // Get.until((HomeScreen) => false);
 
         // Get.offAllNamed(AppRoutes.homeScreen);
       } on FirebaseAuthException catch (error) {

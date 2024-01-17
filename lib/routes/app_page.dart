@@ -11,4 +11,5 @@ class AppRoutes {
   static const welcomeScreen = '/welcomeScreen';
   static const mobileSigninScreen = '/mobileNumberScreen';
   static const otpScreen = '/otpScreen';
+  static const streamBuilderPage = '/streamBuilderPage';
 }

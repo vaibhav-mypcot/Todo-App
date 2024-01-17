@@ -21,7 +21,6 @@ class BottomAppbarWidget extends StatelessWidget {
               icon: Icon(
                 Icons.home,
                 size: 24.h,
-                color: kColorBlackNeutral800,
               ),
               onPressed: () {},
             ),
@@ -29,7 +28,6 @@ class BottomAppbarWidget extends StatelessWidget {
               icon: Icon(
                 Icons.calendar_month_outlined,
                 size: 24.h,
-                color: kColorGreyNeutral500,
               ),
               onPressed: () {},
             ),
@@ -38,7 +36,6 @@ class BottomAppbarWidget extends StatelessWidget {
               icon: Icon(
                 Icons.timelapse,
                 size: 24.h,
-                color: kColorGreyNeutral500,
               ),
               onPressed: () {},
             ),
@@ -46,7 +43,6 @@ class BottomAppbarWidget extends StatelessWidget {
               icon: Icon(
                 Icons.account_circle_outlined,
                 size: 24.h,
-                color: kColorGreyNeutral500,
               ),
               onPressed: () => Get.toNamed(AppRoutes.profileScreen),
             )

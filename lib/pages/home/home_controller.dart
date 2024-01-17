@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:todo_app/routes/app_page.dart';
+import 'package:todo_app/theme/app_theme.dart';
 
-class HomeController extends GetxController {
+class HomeController extends GetxService {
   RxString selectedLanguage = 'English'.obs;
   var isDark = false.obs;
+
+  //GetStorage().read('isDark') ??
 
   final RxMap userData = {}.obs;
   final RxMap userTaskData = {}.obs;
@@ -45,11 +48,12 @@ class HomeController extends GetxController {
   void changeTheme(state) {
     if (state == true) {
       isDark.value = true;
-      Get.changeTheme(ThemeData.dark());
+      Get.changeTheme(KAppTheme.darkTheme);
     } else {
       isDark.value = false;
-      Get.changeTheme(ThemeData.light());
+      Get.changeTheme(KAppTheme.lightTheme);
     }
+    // GetStorage().write('isDark', isDark.value);
   }
 
   // retrive userdata from firestore
@@ -93,7 +97,7 @@ class HomeController extends GetxController {
   }
 
   void gotoAddNewTaskScreen() {
-    Get.offAllNamed(AppRoutes.addTaskScreen);
+    Get.toNamed(AppRoutes.addTaskScreen);
   }
 
   void checkBoxChanged(bool? value, index) async {

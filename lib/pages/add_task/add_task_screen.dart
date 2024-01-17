@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/components/loader.dart';
 import 'package:todo_app/pages/add_task/add_task_controller.dart';
+
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
 import 'package:todo_app/utils/validation_mixin.dart';
@@ -18,7 +19,6 @@ class AddTaskScreen extends StatelessWidget with ValidationsMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kColorWhite,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -77,6 +77,7 @@ class AddTaskScreen extends StatelessWidget with ValidationsMixin {
                     label: "Add Task",
                     press: () async {
                       Utils.showLoader();
+                      taskController.increment();
                       await taskController.onAddTaskClicked();
                       Get.back();
                     },

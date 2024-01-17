@@ -56,7 +56,6 @@ class _TaskTileState extends State<TaskTile>
     return FadeTransition(
       opacity: _fadeAnimation,
       child: Card(
-        color: Color.fromARGB(255, 186, 237, 216),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
