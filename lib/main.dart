@@ -9,6 +9,7 @@ import 'package:todo_app/localization/localization_data.dart';
 import 'package:todo_app/pages/welcome_page/welcome_binding.dart';
 import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/routes/app_routes.dart';
+import 'package:todo_app/storage/local_storage.dart';
 import 'package:todo_app/theme/colors.dart';
 
 void main() async {
@@ -21,15 +22,27 @@ void main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   // This widget is the root of your application.
+
+  String? getLang() {
+    return lang.read('lang');
+  }
+
   @override
   Widget build(BuildContext context) {
+    String? savedLang = getLang();
+
+    // If the saved language is not null, update the app's locale
+    if (savedLang != null) {
+      Locale locale = Locale(savedLang);
+      Get.updateLocale(locale);
+    }
     return ScreenUtilInit(
       minTextAdapt: true,
       splitScreenMode: true,
@@ -38,7 +51,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         title: 'Flutter Demo',
         translations: Languages(),
-        locale: Get.deviceLocale,
+        locale: Locale(savedLang ?? 'en'),
         fallbackLocale: const Locale('en'),
         debugShowCheckedModeBanner: false,
         initialRoute: AppRoutes.streamBuilderPage,

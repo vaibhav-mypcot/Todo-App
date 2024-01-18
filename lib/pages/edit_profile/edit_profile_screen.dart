@@ -92,7 +92,7 @@ class EditProfileScreen extends StatelessWidget with ValidationsMixin {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'First Name',
+                                        'First Name'.tr,
                                         style:
                                             kTextStyleGabaritoRegular.copyWith(
                                           fontSize: 14.sp,
@@ -129,7 +129,7 @@ class EditProfileScreen extends StatelessWidget with ValidationsMixin {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Last Name',
+                                        'Last Name'.tr,
                                         style:
                                             kTextStyleGabaritoRegular.copyWith(
                                           fontSize: 14.sp,
@@ -178,7 +178,7 @@ class EditProfileScreen extends StatelessWidget with ValidationsMixin {
                 child: CustomButton(
                     color: kColorPrimary,
                     textColor: kColorWhite,
-                    label: "Update Account",
+                    label: "Update Account".tr,
                     press: () async {
                       Utils.showLoader();
                       await editProfileController.onUpdateAccount();

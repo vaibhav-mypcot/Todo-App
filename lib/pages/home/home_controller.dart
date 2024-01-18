@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:todo_app/routes/app_page.dart';
+import 'package:todo_app/storage/local_storage.dart';
 import 'package:todo_app/theme/app_theme.dart';
 
 class HomeController extends GetxService {
@@ -53,6 +53,8 @@ class HomeController extends GetxService {
       isDark.value = false;
       Get.changeTheme(KAppTheme.lightTheme);
     }
+
+    // box.write('isDark', isDark.value);
     // GetStorage().write('isDark', isDark.value);
   }
 
@@ -105,7 +107,7 @@ class HomeController extends GetxService {
         .collection('task_list')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('notes')
-        .orderBy('task');
+        .orderBy('currentTime');
 
     QuerySnapshot getData = await querySnapshot.get();
     Map data = getData.docs[index].data() as Map;

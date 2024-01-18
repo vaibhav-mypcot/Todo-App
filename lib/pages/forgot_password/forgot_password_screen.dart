@@ -21,7 +21,6 @@ class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kColorWhite,
       body: SafeArea(
         child: Column(
           children: [
@@ -36,7 +35,7 @@ class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
                       children: [
                         // Herader
                         Text(
-                          'Forgot Password',
+                          'Forgot Password'.tr,
                           style: kTextStyleGabaritoBold.copyWith(
                             fontSize: 30.sp,
                             color: kColorBlackNeutral800,
@@ -44,7 +43,7 @@ class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
                         ),
                         SizedBox(height: 12.h),
                         Text(
-                          'No worries! Enter your email address below and we will send you a code to reset password.',
+                          'No worries! Enter your email address below and we will send you a code to reset password.'.tr,
                           textAlign: TextAlign.center,
                           style: kTextStyleGabaritoRegular.copyWith(
                             fontSize: 14.sp,
@@ -59,7 +58,7 @@ class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'E-mail',
+                                    'E-mail'.tr,
                                     style: kTextStyleGabaritoRegular.copyWith(
                                       fontSize: 14.sp,
                                       color: kColorBlackNeutral800,
@@ -69,7 +68,7 @@ class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
                                   CustomTextField(
                                     controller:
                                         ForgotPasswordController.verifyEmail,
-                                    hintText: 'Enter your email',
+                                    hintText: 'Enter your email'.tr,
                                     hintStyle:
                                         kTextStyleGabaritoRegular.copyWith(
                                       fontSize: 14.sp,
@@ -102,7 +101,7 @@ class ForgotPasswordScreen extends StatelessWidget with ValidationsMixin {
                 child: CustomButton(
                   color: kColorPrimary,
                   textColor: kColorWhite,
-                  label: "Send Reset Instruction",
+                  label: "Send Reset Instruction".tr,
                   press: () async {
                     if (getPass == "forgot_password") {
                       Utils.showLoader();

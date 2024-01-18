@@ -21,7 +21,6 @@ class VerifyAccountScreen extends StatelessWidget with ValidationsMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kColorWhite,
       body: SafeArea(
         child: Form(
           key: verifyAccountController.verifyAccountFormKey,

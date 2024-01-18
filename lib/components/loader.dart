@@ -36,14 +36,14 @@ class Utils {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Confirm logout...!!!",
+                "Confirm logout...!!!".tr,
                 style: kTextStyleGabaritoRegular.copyWith(
                   fontSize: 16.sp,
                   color: kColorBlackNeutral800,
                 ),
               ),
               Text(
-                "Are you sure, you want to logout",
+                "Are you sure, you want to logout".tr,
                 style: kTextStyleGabaritoRegular.copyWith(
                   fontSize: 12.sp,
                   color: kColorGreyNeutral500,
@@ -63,7 +63,7 @@ class Utils {
                           borderRadius: BorderRadius.circular(8.0),
                         )),
                     child: Text(
-                      'No',
+                      'No'.tr,
                       style: kTextStyleGabaritoRegular.copyWith(
                         fontSize: 14.sp,
                         color: kColorWhite,
@@ -83,7 +83,7 @@ class Utils {
                           borderRadius: BorderRadius.circular(8.0),
                         )),
                     child: Text(
-                      'Yes',
+                      'Yes'.tr,
                       style: kTextStyleGabaritoRegular.copyWith(
                         fontSize: 14.sp,
                         color: kColorWhite,

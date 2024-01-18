@@ -20,7 +20,6 @@ class MobileSigninScreen extends StatelessWidget with ValidationsMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kColorWhite,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(

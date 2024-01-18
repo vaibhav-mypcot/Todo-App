@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:todo_app/const/const.dart';
 import 'package:todo_app/pages/home/home_controller.dart';
 import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
@@ -32,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Profile',
+                    'Profile'.tr,
                     style: kTextStyleGabaritoBold.copyWith(
                       fontSize: 30.sp,
                     ),
@@ -56,7 +57,8 @@ class ProfileScreen extends StatelessWidget {
                                 child: CircleAvatar(
                                   radius: 32.0,
                                   backgroundImage: NetworkImage(
-                                    controller.userData["image_url"],
+                                    controller.userData["image_url"] ??
+                                        Image.asset(Const().profileImage),
                                   ),
                                 ),
                               ),
@@ -67,14 +69,15 @@ class ProfileScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    email.toString(),
+                                    email.toString() ?? "example@gmail.com",
                                     style: kTextStyleGabaritoMedium.copyWith(
                                       fontSize: 16.sp,
                                       color: kColorWhite,
                                     ),
                                   ),
                                   Text(
-                                    first_name.toString(),
+                                    first_name.toString() ??
+                                        "example@gmail.com",
                                     style: kTextStyleGabaritoRegular.copyWith(
                                       fontSize: 14.sp,
                                       color: kColorWhite,
@@ -116,7 +119,7 @@ class ProfileScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "My Account",
+                                            "My Account".tr,
                                             style: kTextStyleGabaritoMedium
                                                 .copyWith(
                                               fontSize: 16.sp,
@@ -124,7 +127,7 @@ class ProfileScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            "Make changes to your account",
+                                            "Make changes to your account".tr,
                                             style: kTextStyleGabaritoRegular
                                                 .copyWith(
                                               fontSize: 12.sp,
@@ -168,7 +171,7 @@ class ProfileScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Change Password",
+                                            "Change Password".tr,
                                             style: kTextStyleGabaritoMedium
                                                 .copyWith(
                                               fontSize: 16.sp,
@@ -176,7 +179,7 @@ class ProfileScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            "Manage your password",
+                                            "Manage your password".tr,
                                             style: kTextStyleGabaritoRegular
                                                 .copyWith(
                                               fontSize: 12.sp,

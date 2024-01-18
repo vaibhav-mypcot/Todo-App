@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:todo_app/components/home_components/empty_screen.dart';
 import 'package:todo_app/pages/home/home_controller.dart';
 import 'package:todo_app/pages/signin/signin_controller.dart';
+import 'package:todo_app/routes/app_page.dart';
 import 'package:todo_app/theme/colors.dart';
 
 import 'package:todo_app/widget/appdrawer.dart';
@@ -41,8 +42,7 @@ class HomeScreen extends StatelessWidget {
         .doc(signinController.auth.currentUser!.uid)
         .collection('notes')
         .orderBy(
-          'time',
-          descending: true,
+          'currentTime',
         );
 
     return Scaffold(
@@ -122,6 +122,7 @@ class HomeScreen extends StatelessWidget {
                               taskName: task.toString(),
                               taskCompleted: isCompleted,
                               onChanged: (value) {
+                                print("pressed index: $index");
                                 homeController.checkBoxChanged(value, index);
                                 playAudio();
                               },
@@ -136,7 +137,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           );
                         },
-                      ),
+                      ).reversed.toList(),
                     ),
                   );
                 } else {

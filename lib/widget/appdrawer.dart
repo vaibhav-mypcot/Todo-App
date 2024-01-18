@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:todo_app/pages/home/home_controller.dart';
 import 'package:todo_app/pages/signin/signin_controller.dart';
 import 'package:todo_app/routes/app_page.dart';
+import 'package:todo_app/storage/local_storage.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
 import 'package:todo_app/components/loader.dart';
@@ -26,7 +27,7 @@ class AppDrawerWidget extends StatefulWidget {
 class _AppDrawerState extends State<AppDrawerWidget> {
   bool isLanguageEnabled = false;
   // String selectedLanguage = 'English';
-  List<String> languageOptions = ['Hindi', 'English'];
+  List<String> languageOptions = ['Hindi'.tr, 'English'.tr];
   var isDark = false;
 
   final controller = Get.find<HomeController>();
@@ -86,7 +87,7 @@ class _AppDrawerState extends State<AppDrawerWidget> {
           // ),
           ListTile(
             leading: Icon(Icons.language_sharp),
-            title: Text('Translate'),
+            title: Text('Translate'.tr),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -114,9 +115,11 @@ class _AppDrawerState extends State<AppDrawerWidget> {
                         if (newValue == "Hindi") {
                           var locale = Locale('hi');
                           Get.updateLocale(locale);
+                          lang.write('lang', 'hi');
                         } else if (newValue == "English") {
                           var locale = Locale('en');
                           Get.updateLocale(locale);
+                          lang.write('lang', 'en');
                         }
                       });
                     },
@@ -133,7 +136,7 @@ class _AppDrawerState extends State<AppDrawerWidget> {
               leading: Icon(Icons.dark_mode),
               title: Row(
                 children: [
-                  const Text('Change Theme'),
+                  Text('Change Theme'.tr),
                   const Spacer(),
                   Switch(
                     value: controller.isDark.value,
@@ -150,7 +153,7 @@ class _AppDrawerState extends State<AppDrawerWidget> {
           }),
           ListTile(
             leading: Icon(Icons.logout_outlined),
-            title: Text('Logout'),
+            title: Text('Logout'.tr),
             onTap: () async {
               Utils.showAlert();
               widget.onClearData();

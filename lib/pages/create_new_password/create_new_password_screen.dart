@@ -19,7 +19,6 @@ class CreateNewPasswordScreen extends StatelessWidget with ValidationsMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: kColorWhite,
       body: SafeArea(
         child: Column(
           children: [

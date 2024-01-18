@@ -8,18 +8,52 @@ import 'package:uuid/uuid.dart';
 
 class AddTaskController extends GetxController {
   GlobalKey<FormState> taskFormKey = GlobalKey<FormState>();
-  String currentDate = DateFormat('dd MMM yyyy').format(DateTime.now());
+  DateTime now = DateTime.now();
+
   String currentTime = DateFormat('HH:mm:ss').format(DateTime.now());
-  int counter = 0;
 
   final task = TextEditingController();
 
-  void increment() {
-    counter = counter + 1;
-    print("incremet: $counter");
+  // Select Time method
+  final selectedTime = TimeOfDay.now().obs;
+  String timeValue = 'Select Time';
+
+  Future<void> selectTime(BuildContext context) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: selectedTime.value,
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+          child: child!,
+        );
+      },
+    );
+    if (pickedTime != null && pickedTime != selectedTime) {
+      selectedTime.value = pickedTime;
+    }
   }
 
-  Future<void> onAddTaskClicked() async {
+  // Select date method
+  var selectedDate = DateTime.now().obs;
+  String date = DateFormat('dd MMM yyyy').format(DateTime.now());
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate.value,
+      firstDate: DateTime.now().subtract(Duration(days: 0)),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      selectedDate.value = picked;
+      date = DateFormat('dd MMM yyyy').format(picked);
+    }
+  }
+
+  Future<void> onAddTaskClicked(BuildContext context) async {
+    print("current time:${currentTime}");
     if (taskFormKey.currentState!.validate()) {
       try {
         User? user = FirebaseAuth.instance.currentUser;
@@ -36,12 +70,11 @@ class AddTaskController extends GetxController {
             .collection('notes')
             .doc(randomString)
             .set({
-          'id': counter,
           'task': task.text.toString(),
           'isCompleted': false,
-          'date': currentDate,
-          'time': currentTime,
-
+          'date': date,
+          'time': selectedTime.value.format(context),
+          'currentTime': DateFormat('HH:mm:ss').format(DateTime.now()),
         });
 
         Get.snackbar(
