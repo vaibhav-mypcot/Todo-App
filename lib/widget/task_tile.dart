@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:todo_app/pages/home/home_controller.dart';
-import 'package:todo_app/pages/signin/signin_controller.dart';
 import 'package:todo_app/theme/colors.dart';
 import 'package:todo_app/theme/text_styles.dart';
 
@@ -17,6 +16,7 @@ class TaskTile extends StatefulWidget {
     required String documentId,
     required this.currentTime,
     required this.currentDate,
+    required this.bellIc,
   });
 
   final String taskName;
@@ -26,6 +26,7 @@ class TaskTile extends StatefulWidget {
   Function(bool?)? onChanged;
   final String? docId;
   final Function onDelete;
+  final bool bellIc;
 
   @override
   State<TaskTile> createState() => _TaskTileState();
@@ -83,13 +84,18 @@ class _TaskTileState extends State<TaskTile>
                     ),
                   ),
                 ),
+                widget.bellIc
+                    ? Padding(
+                        padding: EdgeInsets.only(right: 16.w),
+                        child: Icon(Icons.notifications_active),
+                      )
+                    : SizedBox.shrink(),
                 Padding(
                   padding: EdgeInsets.only(right: 16.w),
                   child: GestureDetector(
                     onTap: () async {
                       _animationController.forward();
                       await Future.delayed(Duration(milliseconds: 300));
-
                       widget.onDelete(widget.docId);
                     },
                     child: Icon(Icons.delete),

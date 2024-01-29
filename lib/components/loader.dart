@@ -28,7 +28,7 @@ class Utils {
   static void showAlert() {
     Get.dialog(
       AlertDialog(
-        backgroundColor: kColorPrimaryLight,
+        backgroundColor: kColorPrimary,
         content: Padding(
           padding: EdgeInsets.fromLTRB(6.h, 6.w, 6.h, 0.h),
           child: Column(
@@ -39,14 +39,14 @@ class Utils {
                 "Confirm logout...!!!".tr,
                 style: kTextStyleGabaritoRegular.copyWith(
                   fontSize: 16.sp,
-                  color: kColorBlackNeutral800,
+                  color: kColorWhite,
                 ),
               ),
               Text(
                 "Are you sure, you want to logout".tr,
                 style: kTextStyleGabaritoRegular.copyWith(
                   fontSize: 12.sp,
-                  color: kColorGreyNeutral500,
+                  color: kColorWhite,
                 ),
               ),
               SizedBox(height: 12.h),
@@ -58,7 +58,7 @@ class Utils {
                       Get.back();
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: kColorGreyNeutral400,
+                        backgroundColor: Colors.grey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         )),

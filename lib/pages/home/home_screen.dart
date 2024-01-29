@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
         .doc(signinController.auth.currentUser!.uid)
         .collection('notes')
         .orderBy(
-          'currentTime',
+          'taskId',
         );
 
     return Scaffold(
@@ -90,6 +90,7 @@ class HomeScreen extends StatelessWidget {
                           bool isCompleted = data['isCompleted'];
                           String time = data['time'];
                           String date = data['date'];
+                          bool bellIC = data['bellIC'];
 
                           QueryDocumentSnapshot documentSnapshot =
                               snapshot.data!.docs[index];
@@ -134,6 +135,7 @@ class HomeScreen extends StatelessWidget {
                                     .doc(docID)
                                     .delete();
                               },
+                              bellIc: bellIC,
                             ),
                           );
                         },
